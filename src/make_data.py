@@ -1,5 +1,6 @@
 import sqlite3
 import pandas as pd
+import csv
 
 def fire_data():
     conn = sqlite3.connect("data/FPA_FOD_20170508.sqlite")
@@ -45,11 +46,20 @@ def weather_data():
                      'WA_1995_2.csv', 'WA_2000_2.csv', 'WA_2005_2.csv', 'WA_2010_2.csv', 'WA_2015_2.csv',
                      'WA_1996_1.csv', 'WA_2001_1.csv', 'WA_2006_1.csv', 'WA_2011_1.csv']
 
-    weather_features = ['STATION', 'LATITUDE', 'LONGITUDE', 'ELEVATION', 'DATE',
-                        'PRCP', 'SNOW', 'SNWD', 'TAVG', 'TMAX', 'TMIN', 'TOBS']
-[value for value in variable]
+    weather_features = weather_columns()
+
     weather_data_generator = get_weather_data(file_path, weather_files,
                                               weather_features)
+    with open('data/compiled_weather.csv', 'a') as f:
+        fwriter = csv.writer(f, delimiter=',',
+                                quotechar='"',
+                                quoting=csv.QUOTE_MINIMAL)
+        for row in weather_data_generator:
+            fwriter.writerow(row)
+
+def weather_columns():
+    return ['STATION', 'LATITUDE', 'LONGITUDE', 'ELEVATION', 'DATE',
+            'PRCP', 'SNOW', 'SNWD', 'TAVG', 'TMAX', 'TMIN', 'TOBS']
 
 def get_weather_data(file_path, files, features):
     for file_name in files:
@@ -62,3 +72,8 @@ def get_weather_data(file_path, files, features):
 
 def parser(row, col_indeces):
     return [row[i] for i in col_indeces]
+
+
+if __name__ == "__main__":
+    #fire_data()
+    weather_data()
