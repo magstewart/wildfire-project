@@ -48,7 +48,7 @@ A simple web app that can be used by fire departments or state authorities.  It 
   Output: Expected value of the cost or recovered funds if the investigation is carried out.  This would enable an informed     decision on whether or not to investigate.  
 
 ### Sources
-https://www.dnr.wa.gov/Investigations
+https://www.dnr.wa.gov/Investigations  
 https://www.ncdc.noaa.gov/cdo-web/search
 https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0009.4/
 
