@@ -49,6 +49,6 @@ A simple web app that can be used by fire departments or state authorities.  It 
 
 ### Sources
 https://www.dnr.wa.gov/Investigations  
-https://www.ncdc.noaa.gov/cdo-web/search
+https://www.ncdc.noaa.gov/cdo-web/search   
 https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0009.4/
 
