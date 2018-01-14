@@ -2,7 +2,20 @@ import sqlite3
 import pandas as pd
 import csv
 
-def fire_data():
+def fire_data(output_file):
+    '''
+    Pulls Washington data from wildfire data base.  Writes the desired
+    columns to a csv file.
+
+    Input:
+    ------
+    output_file: String specifying the path where the data will be written.
+
+    Output:
+    -------
+    None
+    '''
+
     conn = sqlite3.connect("data/FPA_FOD_20170508.sqlite")
     cur = conn.cursor()
 
@@ -29,39 +42,51 @@ def fire_data():
     cur.close()
     conn.close()
 
-    df.to_csv('data/WA_fires.csv')
+    df.to_csv('data/WA_fires.csv', index=False)
 
 
+def weather_data(file_path, weather_files, weather_features, output_file):
+    '''
+    Pulls desired columns from raw weather data and compiles all into one csv
 
-def weather_data():
-    file_path = 'data/weather/'
-    weather_files = ['WA_1992_1.csv', 'WA_1996_2.csv', 'WA_2001_2.csv', 'WA_2006_2.csv', 'WA_2011_2.csv',
-                     'WA_1992_2.csv', 'WA_1997_1.csv', 'WA_2002_1.csv', 'WA_2007_1.csv', 'WA_2012_1.csv',
-                     'WA_1993_1.csv', 'WA_1997_2.csv', 'WA_2002_2.csv', 'WA_2007_2.csv', 'WA_2012_2.csv',
-                     'WA_1993_2.csv', 'WA_1998_1.csv', 'WA_2003_1.csv', 'WA_2008_1.csv', 'WA_2013_1.csv',
-                     'WA_1994_1.csv', 'WA_1998_2.csv', 'WA_2003_2.csv', 'WA_2008_2.csv', 'WA_2013_2.csv',
-                     'WA_1994_2.csv', 'WA_1999_1.csv', 'WA_2004_1.csv', 'WA_2009_1.csv', 'WA_2014_1.csv',
-                     'WA_1994_3.csv', 'WA_1999_2.csv', 'WA_2004_2.csv', 'WA_2009_2.csv', 'WA_2014_2.csv',
-                     'WA_1995_1.csv', 'WA_2000_1.csv', 'WA_2005_1.csv', 'WA_2010_1.csv', 'WA_2015_1.csv',
-                     'WA_1995_2.csv', 'WA_2000_2.csv', 'WA_2005_2.csv', 'WA_2010_2.csv', 'WA_2015_2.csv',
-                     'WA_1996_1.csv', 'WA_2001_1.csv', 'WA_2006_1.csv', 'WA_2011_1.csv']
+    Input:
+    ------
+    file_path: String specifying path for the raw weather data directory
+    weather_files: List of strings specifying weather file names
+    weather_features: List of strings specifying columns from raw weather
+                      data to include in output
+    output_file: String specifying the path where the data will be written.
 
-    weather_features = weather_columns()
-
+    Output:
+    -------
+    None
+    '''
     weather_data_generator = get_weather_data(file_path, weather_files,
                                               weather_features)
-    with open('data/compiled_weather.csv', 'a') as f:
+    with open('output_file', 'a') as f:
         fwriter = csv.writer(f, delimiter=',',
                                 quotechar='"',
                                 quoting=csv.QUOTE_MINIMAL)
         for row in weather_data_generator:
             fwriter.writerow(row)
 
-def weather_columns():
-    return ['STATION', 'LATITUDE', 'LONGITUDE', 'ELEVATION', 'DATE',
-            'PRCP', 'SNOW', 'SNWD', 'TAVG', 'TMAX', 'TMIN', 'TOBS']
 
 def get_weather_data(file_path, files, features):
+    '''
+    Returns a generator that iterates over rows of weather data with the
+    desired columns
+
+    Input:
+    ------
+    file_path: String specifying path for the raw data directory
+    files: List of strings specifying file names
+    features: List of strings specifying columns from raw data to include in output
+    output_file: String specifying the path where the data will be written.
+
+    Output:
+    -------
+    None
+    '''
     for file_name in files:
         with open(file_path + file_name) as f:
             reader = csv.reader(f)
@@ -71,9 +96,16 @@ def get_weather_data(file_path, files, features):
                 yield parser(row, col_indeces)
 
 def parser(row, col_indeces):
+    '''
+    Returns row of data with the desired columns
+
+    Input:
+    ------
+    row: A list containing onw row of data
+    col_indeces: A list containing the indeces for the desired columns
+
+    Output:
+    -------
+    A list of data
+    '''
     return [row[i] for i in col_indeces]
-
-
-if __name__ == "__main__":
-    #fire_data()
-    weather_data()

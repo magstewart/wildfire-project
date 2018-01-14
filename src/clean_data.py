@@ -2,10 +2,10 @@ import pandas as pd
 import numpy as np
 import pyspark as ps
 
-def clean_fire():
+def clean_fire(input_path, output_path):
     # import all fire data to pandas
-    df = pd.read_csv('data/WA_fires.csv')
-    df = df.drop('Unnamed: 0', axis=1)
+    df = pd.read_csv(input_path)
+    #df = df.drop('Unnamed: 0', axis=1)
 
     # Column names
     columns = df.columns
@@ -21,21 +21,13 @@ def clean_fire():
     df['length'] = df['length'].map(lambda x : x.days)
 
 
-    df.to_csv('data/clean_fire_data.csv', index=False)
+    df.to_csv(output_path, index=False)
 
 
-def clean_weather():
-    df = pd.read_csv('data/all_weather.csv')
-    df = df.drop('Unnamed: 0', axis=1)
+def clean_weather(input_path, output_path, weather_raw_features):
 
-    weather_keep = ['STATION', 'LATITUDE', 'LONGITUDE', 'ELEVATION', 'DATE', 'PRCP',
-                    'SNOW', 'SNWD', 'TAVG', 'TMAX', 'TMIN', 'TOBS'] # thunder 'WV03' 'WT03'
-    df = df[weather_keep]
-
-    # Column names
-    columns = df.columns
-    columns = columns.str.lower()
-    df.columns = columns
+    df = pd.read_csv(input_path, header=None)
+    df.columns = [col.lower() for col in weather_raw_features]
 
     df['date'] = pd.to_datetime(df['date'])
     df['month'] = df['date'].map(lambda x : x.month)
@@ -49,18 +41,20 @@ def clean_weather():
     df_sorted['tmax'].fillna(method='ffill', inplace=True)
     df_sorted['tmin'].fillna(method='ffill', inplace=True)
 
-    df.to_csv('data/clean_weather_data.csv', index=False)
+    df.to_csv(output_path, index=False)
 
-def get_station_coordinates():
-    weather = pd.read_csv('data/clean_weather_data.csv')
+
+
+def get_station_coordinates(input_path, output_path):
+    weather = pd.read_csv(input_path)
     group_station = weather.groupby('station')
     station_coordinates = group_station[['latitude', 'longitude']].max()
-    pd.to_csv('data/station_coordinates.csv')
+    station_coordinates.to_csv(output_path)
 
 
-def combine_data():
-    fires = pd.read_csv('data/clean_fire_data.csv')
-    weather = pd.read_csv('data/clean_weather_data.csv')
+def combine_data(fire_filepath, weather_filepath, output_file):
+    fires = pd.read_csv(fire_filepath)
+    weather = pd.read_csv(weather_filepath)
 
     fires['weather_station'] = np.vectorize(get_nearby_station)(
                                     fires['latitude'], fires['longitude'])
@@ -69,7 +63,7 @@ def combine_data():
                     left_on=['weather_station', 'fire_year', 'discovery_doy'],
                     right_on=['station', 'year', 'doy'])
 
-    combined.to_csv('data/fire_weather_combined.csv', index=False)
+    combined.to_csv(output_file, index=False)
 
 
 def get_nearby_station(lat, long):
