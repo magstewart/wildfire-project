@@ -3,6 +3,20 @@ import numpy as np
 import pyspark as ps
 
 def clean_fire(input_path, output_path):
+    '''
+    Converts DISCOVERY_DATE from julian data to datetime and creates other
+    date related columns. Converts column names to lower case.
+
+    Input:
+    ------
+    input_path: String specifying path for the data to be cleaned
+    output_path: String specifying the path where the cleaned dataframe will
+    be saved
+
+    Output:
+    -------
+    None
+    '''
     # import all fire data to pandas
     df = pd.read_csv(input_path)
     #df = df.drop('Unnamed: 0', axis=1)
@@ -25,7 +39,20 @@ def clean_fire(input_path, output_path):
 
 
 def clean_weather(input_path, output_path, weather_raw_features):
+    '''
+    Converts the column names to lower case.  Fills in missing values and
+    creates date related columns.
 
+    Input:
+    ------
+    input_path: String specifying path for the data to be cleaned
+    output_path: String specifying the path where the cleaned dataframe will
+    be saved
+
+    Output:
+    -------
+    None
+    '''
     df = pd.read_csv(input_path, header=None)
     df.columns = [col.lower() for col in weather_raw_features]
 
@@ -40,12 +67,26 @@ def clean_weather(input_path, output_path, weather_raw_features):
     df_sorted['snwd'].fillna(value=0.0, inplace=True)
     df_sorted['tmax'].fillna(method='ffill', inplace=True)
     df_sorted['tmin'].fillna(method='ffill', inplace=True)
+    df_sorted['prcp'].fillna(method='ffill', inplace=True)
 
-    df.to_csv(output_path, index=False)
-
+    df_sorted.to_csv(output_path, index=False)
 
 
 def get_station_coordinates(input_path, output_path):
+    '''
+    Creates a csv file containing all the weather stations and their
+    latitude and longitude.
+
+    Input:
+    ------
+    input_path: String specifying path for the weather data.
+    output_path: String specifying the path where the stations coordiantes
+    will be saved.
+
+    Output:
+    -------
+    None
+    '''
     weather = pd.read_csv(input_path)
     group_station = weather.groupby('station')
     station_coordinates = group_station[['latitude', 'longitude']].max()
@@ -53,6 +94,20 @@ def get_station_coordinates(input_path, output_path):
 
 
 def combine_data(fire_filepath, weather_filepath, output_file):
+    '''
+    Joins fire data with weather data from the station closest to each fire.
+
+    Input:
+    ------
+    fire_filepath: String specifying path for the fire data.
+    weather_filepath: String specifying path for the weather data.
+    output_path: String specifying the path where the joined data
+    will be saved.
+
+    Output:
+    -------
+    None
+    '''
     fires = pd.read_csv(fire_filepath)
     weather = pd.read_csv(weather_filepath)
 
@@ -67,18 +122,11 @@ def combine_data(fire_filepath, weather_filepath, output_file):
 
 
 def get_nearby_station(lat, long):
-    min_d = 1000
     stations = pd.read_csv('data/station_coordinates.csv', index_col='station')
-    station = stations.index[0]
-    for i in range(len(stations)):
-        distance = np.sqrt((lat-stations.iloc[i,0])**2 + (long-stations.iloc[i,1])**2)
-        if distance < min_d:
-            min_d = distance
-            station = stations.index[i]
-    return station
-
-
-
+    stations['distance'] = np.sqrt((lat-stations.iloc[:,0])**2 +
+                                    (long-stations.iloc[:,1])**2)
+    closest_index = np.argmin(stations['distance'].values)
+    return stations.index[closest_index]
 
 
 if __name__ == '__main__':

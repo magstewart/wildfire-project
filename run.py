@@ -38,6 +38,7 @@ if params['generate_station_coordinates']:
     pipeline.get_station_coordinates(params['clean_weather_data_filepath'],
                                      params['stations_filepath'])
 
+# This step takes a long time, look into improving code
 if params['merge_fire_weather']:
     print ('Merging fire and weather data\n')
     pipeline.combine_data(params['clean_fire_data_filepath'],
