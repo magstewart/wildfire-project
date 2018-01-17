@@ -21,7 +21,6 @@ if params['compile_weather']:
                        params['weather_raw_features'],
                        params['weather_filepath_out'])
 
-
 if params['clean_fire_data']:
     print ('Cleaning fire data\n')
     pipeline.clean_fire(params['fire_filepath'],
@@ -38,9 +37,14 @@ if params['generate_station_coordinates']:
     pipeline.get_station_coordinates(params['clean_weather_data_filepath'],
                                      params['stations_filepath'])
 
-# This step takes a long time, look into improving code
 if params['add_station_to_fire']:
     print ('Matching fire data to weather stations\n')
     pipeline.add_stations_to_fire(params['clean_fire_data_filepath'],
                           params['clean_weather_data_filepath'],
                           params['fires_stations_filepath'])
+
+if params['merge_fire_weather']:
+    print ('Merging fire and weather data\n')
+    pipeline.merge_fire_weather(params['fires_stations_filepath'],
+                          params['clean_weather_data_filepath'],
+                          params['combine_data_filepath'])
