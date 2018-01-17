@@ -93,7 +93,7 @@ def get_station_coordinates(input_path, output_path):
     station_coordinates.to_csv(output_path)
 
 
-def combine_data(fire_filepath, weather_filepath, output_file):
+def add_stations_to_fire(fire_filepath, weather_filepath, output_file):
     '''
     Joins fire data with weather data from the station closest to each fire.
 
@@ -110,23 +110,50 @@ def combine_data(fire_filepath, weather_filepath, output_file):
     '''
     fires = pd.read_csv(fire_filepath)
     weather = pd.read_csv(weather_filepath)
+    stations = weather[['station', 'latitude', 'longitude', 'doy', 'year']]
 
-    fires['weather_station'] = np.vectorize(get_nearby_station)(
-                                    fires['latitude'], fires['longitude'])
+    v_get_station = np.vectorize(get_nearby_station, excluded=['stations'])
+    fires['weather_station'] = v_get_station(lat=fires['latitude'],
+                                             lon=fires['longitude'],
+                                             year=fires['fire_year'],
+                                             doy=fires['discovery_doy'],
+                                             stations=stations)
 
-    combined = pd.merge(fires, weather, how='left',
-                    left_on=['weather_station', 'fire_year', 'discovery_doy'],
-                    right_on=['station', 'year', 'doy'])
-
-    combined.to_csv(output_file, index=False)
+    fires.to_csv(output_file, index=False)
 
 
-def get_nearby_station(lat, long):
-    stations = pd.read_csv('data/station_coordinates.csv', index_col='station')
-    stations['distance'] = np.sqrt((lat-stations.iloc[:,0])**2 +
-                                    (long-stations.iloc[:,1])**2)
-    closest_index = np.argmin(stations['distance'].values)
-    return stations.index[closest_index]
+def get_nearby_station(lat, lon, year, doy, stations):
+    '''
+    Returns the name of the station closest to the input latitude and longitude
+    with weather records on that date
+
+    Input:
+    ------
+    lat: float representing the latitude of the fire location
+    lon: float representing the longitude of the fire location
+    year: int representing the fire year
+    doy: int representing the day of year
+    stations: dataframe of weather data containing latitude, longitude, year
+    and day of year
+
+    Output:
+    -------
+    string containing the station id
+    '''
+    stations_date = stations[(stations['year'] == year) &
+                           (stations['doy'] == doy)]
+    stations_date['distance'] = np.sqrt((stations_date.loc[:,'latitude']-lat)**2 +
+                                    (stations_date.loc[:,'longitude']-lon)**2)
+    if len(stations_date['distance'].values) > 0:
+        closest_index = np.argmin(stations_date['distance'].values)
+        return stations_date.iloc[closest_index,0]
+    else:
+        return None
+
+#def merge_fire_weather():
+#    combined = pd.merge(fires, weather, how='left',
+#                    left_on=['weather_station', 'fire_year', 'discovery_doy'],
+#                    right_on=['station', 'year', 'doy'])
 
 
 if __name__ == '__main__':

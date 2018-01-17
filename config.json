@@ -35,10 +35,12 @@
                         "WA_2011_1.csv"],
   "clean_fire_data": false,
   "clean_fire_data_filepath": "data/clean_fire_data.csv",
-  "clean_weather_data": true,
+  "clean_weather_data": false,
   "clean_weather_data_filepath": "data/clean_weather_data.csv",
   "generate_station_coordinates": false,
   "stations_filepath": "data/station_coordinates.csv",
-  "merge_fire_weather":true,
+  "add_station_to_fire": false,
+  "fires_stations_filepath": "data/fires_with_stations.csv",
+  "merge_fire_weather": true,
   "combine_data_filepath": "data/merged_data.csv"
 }

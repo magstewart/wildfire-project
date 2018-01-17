@@ -1,6 +1,6 @@
 from sys import argv
 import src.make_data as generate
-import src.clean_data as pipeline
+import src.pipeline as pipeline
 import json
 
 # Run from root directory using python run.py config.json
@@ -16,11 +16,11 @@ if params['compile_fire']:
 
 if params['compile_weather']:
     print ('Generating weather data\n')
-    generate.fire_data(params['weather_raw_path'],
+    generate.weather_data(params['weather_raw_path'],
                        params['weather_raw_files'],
                        params['weather_raw_features'],
-                       params['weather_filepath_out'],
-                       )
+                       params['weather_filepath_out'])
+
 
 if params['clean_fire_data']:
     print ('Cleaning fire data\n')
@@ -39,8 +39,8 @@ if params['generate_station_coordinates']:
                                      params['stations_filepath'])
 
 # This step takes a long time, look into improving code
-if params['merge_fire_weather']:
-    print ('Merging fire and weather data\n')
-    pipeline.combine_data(params['clean_fire_data_filepath'],
+if params['add_station_to_fire']:
+    print ('Matching fire data to weather stations\n')
+    pipeline.add_stations_to_fire(params['clean_fire_data_filepath'],
                           params['clean_weather_data_filepath'],
-                          params['combine_data_filepath'])
+                          params['fires_stations_filepath'])

@@ -63,7 +63,7 @@ def weather_data(file_path, weather_files, weather_features, output_file):
     '''
     weather_data_generator = get_weather_data(file_path, weather_files,
                                               weather_features)
-    with open('output_file', 'a') as f:
+    with open(output_file, 'a') as f:
         fwriter = csv.writer(f, delimiter=',',
                                 quotechar='"',
                                 quoting=csv.QUOTE_MINIMAL)
