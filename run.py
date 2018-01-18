@@ -2,6 +2,7 @@ from sys import argv
 import src.make_data as generate
 import src.pipeline as pipeline
 import json
+from src.model import Model
 
 # Run from root directory using python run.py config.json
 
@@ -47,4 +48,21 @@ if params['merge_fire_weather']:
     print ('Merging fire and weather data\n')
     pipeline.merge_fire_weather(params['fires_stations_filepath'],
                           params['clean_weather_data_filepath'],
-                          params['combine_data_filepath'])
+                          params['combined_data_filepath'])
+
+if params.get('engineer_features'):
+    print ('Engineering features\n')
+    pipeline.engineer_features(params['combined_data_filepath'],
+                               params['engineered_data_output'])
+
+if params.get('new_model'):
+    print ('Fitting a new model\n')
+    X, y = pipeline.get_model_features(params['engineered_data_output'],
+                                       params['model_features'],
+                                       params['model_label'],
+                                       params['positive_class'])
+    model = Model(params['model_type'], **params.get('model_hyperparameters'))
+    if params.get('cross_validate'):
+        print('Cross-validating\n')
+        model.cross_validate(params.get('numnber_CV_folds'), X, y,
+                             params.get('staged_predict'))

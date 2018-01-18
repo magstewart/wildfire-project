@@ -158,6 +158,31 @@ def merge_fire_weather(fire_filepath, weather_filepath, output_path):
                     right_on=['station', 'year', 'doy'])
     combined.to_csv(output_path, index=False)
 
+def engineer_features(input_filepath, output_filepath):
+    df = pd.read_csv(input_filepath)
+    df.drop_duplicates(inplace=True)
+    df['cause_group'] = np.vectorize(group_cause)(df['stat_cause_descr'])
+    df.to_csv(output_filepath, index=False)
+
+def get_model_features(filepath, features, label, positive_class):
+    df = pd.read_csv(filepath)
+    df[label] = np.vectorize(group_cause)(df['stat_cause_descr'])
+    X = df[features].values
+    y = df[label].values
+    y = y == positive_class
+    return X, y
+
+def group_cause(cause):
+
+    human_activity = ['Debris Burning', 'Campfire', 'Arson', 'Children', 'Fireworks', 'Smoking', 'Equipment Use']
+    other = ['Missing/Undefined', 'Powerline', 'Railroad', 'Structure', 'Lightning', 'Miscellaneous']
+    #nature = ['Lightning']
+
+    if cause in human_activity:
+        return 'human'
+    elif cause in other:
+        return 'other'
+
 
 if __name__ == '__main__':
     spark = (ps.sql.SparkSession.builder
