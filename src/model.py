@@ -145,6 +145,6 @@ class Model():
         -------
         None
         '''
-        self.fit_model = self.model.fit(X,y)
+        self.fit(X,y)
         with open('model.pkl', 'wb') as f:
             pickle.dump(self.fit_model, f)

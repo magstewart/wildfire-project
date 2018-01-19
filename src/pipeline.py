@@ -151,6 +151,21 @@ def get_nearby_station(lat, lon, year, doy, stations):
         return None
 
 def merge_fire_weather(fire_filepath, weather_filepath, output_path):
+    '''
+    Performs a left joing on the fire data and weather data based on the nearest
+    station label on the fire data, the year and day of year.
+
+    Input:
+    ------
+    fire_filepath: string containing the filepath for the fire data
+    weather_filepath: string containing the filepath for the weather data
+    output_path: string containing the filepath where the merged data will
+                 be saved
+
+    Output:
+    -------
+    None
+    '''
     fires = pd.read_csv(fire_filepath)
     weather = pd.read_csv(weather_filepath)
     combined = pd.merge(fires, weather, how='left',
@@ -158,22 +173,67 @@ def merge_fire_weather(fire_filepath, weather_filepath, output_path):
                     right_on=['station', 'year', 'doy'])
     combined.to_csv(output_path, index=False)
 
-def engineer_features(input_filepath, output_filepath):
+def engineer_features(input_filepath, output_filepath, training_data=True):
+    '''
+    Adds engineeref feature columns to the data set
+
+    Input:
+    ------
+    input_filepath: string containing the filepath for input data
+    output_path: string containing the filepath where new data will be saved
+
+    Output:
+    -------
+    None
+    '''
     df = pd.read_csv(input_filepath)
     df.drop_duplicates(inplace=True)
-    df['cause_group'] = np.vectorize(group_cause)(df['stat_cause_descr'])
+
+    if training_data:
+        df['cause_group'] = np.vectorize(group_cause)(df['stat_cause_descr'])
+
     df.to_csv(output_filepath, index=False)
 
-def get_model_features(filepath, features, label, positive_class):
+def get_model_features(filepath, features, label=None, positive_class=None,
+                        training_data=True):
+    '''
+    Returns numpy arrays ready for use in an sklearn model
+
+    Input:
+    ------
+    filepath: string containing the filepath for input data
+    features: list of strings representing the features from the input data
+              that will be used in the model
+    label: string representing the label column name to be returned as y
+    positive_class: name of the positive class to be converted to 1s
+
+    Output:
+    -------
+    X: numpy array of features
+    y: numpy array of labels
+    '''
     df = pd.read_csv(filepath)
-    df[label] = np.vectorize(group_cause)(df['stat_cause_descr'])
     X = df[features].values
-    y = df[label].values
-    y = y == positive_class
-    return X, y
+    if training_data:
+        df[label] = np.vectorize(group_cause)(df['stat_cause_descr'])
+        y = df[label].values
+        y = y == positive_class
+        return X, y
+    return X
 
 def group_cause(cause):
+    '''
+    Returns returns 'human' when cause is in the list of human causes, otherwise
+    returns 'other'
 
+    Input:
+    ------
+    cause: string containing the cause label
+
+    Output:
+    -------
+    The cause group: 'human' or 'other'
+    '''
     human_activity = ['Debris Burning', 'Campfire', 'Arson', 'Children', 'Fireworks', 'Smoking', 'Equipment Use']
     other = ['Missing/Undefined', 'Powerline', 'Railroad', 'Structure', 'Lightning', 'Miscellaneous']
     #nature = ['Lightning']
@@ -182,6 +242,12 @@ def group_cause(cause):
         return 'human'
     elif cause in other:
         return 'other'
+
+def test_data_pipeline(input_path, weather_filepath, output_path):
+    clean_fire(input_path, output_path)
+    add_stations_to_fire(output_path, weather_filepath, output_path)
+    merge_fire_weather(output_path, weather_filepath, output_path)
+    engineer_features(output_path, output_path, False)
 
 
 if __name__ == '__main__':

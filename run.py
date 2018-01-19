@@ -66,3 +66,11 @@ if params.get('new_model'):
         print('Cross-validating\n')
         model.cross_validate(params.get('numnber_CV_folds'), X, y,
                              params.get('staged_predict'))
+    if params.get('fit_final_model'):
+        print('Fitting final model\n')
+        model.final_model(X,y)
+
+if params.get('prepare_test_data'):
+    print('Preparing test data\n')
+    pipeline.test_data_pipeline(params['raw_test_data_path'],
+                                params[''])

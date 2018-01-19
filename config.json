@@ -46,7 +46,7 @@
   "engineer_features": true,
   "engineered_data_output": "data/engineered_features.csv",
   "new_model": true,
-  "model_features": ["fire_year", "discovery_doy", "fire_size", "latitude_x",
+  "model_features": ["discovery_doy", "fire_size", "latitude_x",
                      "longitude_x", "elevation", "prcp", "snow", "tmax", "tmin"],
   "model_label": "cause_group",
   "positive_class": "human",
@@ -56,7 +56,11 @@
                             "n_estimators": 100,
                             "max_depth": 3
                            },
-  "cross_validate": true,
+  "cross_validate": false,
   "numnber_CV_folds": 5,
-  "staged_predict": false
+  "staged_predict": false,
+  "fit_final_model": true,
+  "prepare_test_data": true,
+  "raw_test_data_path": "data/test_raw.csv",
+  "clean_test_data_path": "data/test_clean.csv"
 }
