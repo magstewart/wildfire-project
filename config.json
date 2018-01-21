@@ -43,10 +43,10 @@
   "fires_stations_filepath": "data/fires_with_stations.csv",
   "merge_fire_weather": false,
   "combined_data_filepath": "data/merged_data.csv",
-  "engineer_features": true,
+  "engineer_features": false,
   "engineered_data_output": "data/engineered_features.csv",
-  "new_model": true,
-  "model_features": ["discovery_doy", "fire_size", "latitude_x",
+  "new_model": false,
+  "model_features": ["fire_year", "discovery_doy", "fire_size", "latitude_x",
                      "longitude_x", "elevation", "prcp", "snow", "tmax", "tmin"],
   "model_label": "cause_group",
   "positive_class": "human",
@@ -59,8 +59,11 @@
   "cross_validate": false,
   "numnber_CV_folds": 5,
   "staged_predict": false,
-  "fit_final_model": true,
-  "prepare_test_data": true,
+  "fit_final_model": false,
+  "prepare_test_data": false,
   "raw_test_data_path": "data/test_raw.csv",
-  "clean_test_data_path": "data/test_clean.csv"
+  "clean_test_data_path": "data/test_clean.csv",
+  "make_predictions": true,
+  "predictions_filepath": "data/predictions.csv"
+
 }
