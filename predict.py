@@ -8,6 +8,7 @@ import numpy as np
 import sqlite3
 import psycopg2
 import csv
+import os
 
 # Run from root directory using python run.py config.json
 
@@ -37,7 +38,7 @@ def predict_on_raw_data(input_path, output_path):
         output_path, index=False, header=False)
 
 def write_to_db(filepath):
-    conn = psycopg2.connect("host=firesdbinstance.cwspjcvdc38q.us-west-2.rds.amazonaws.com port=5432 user=Administratos password=IGB9837nkdywf dbname=fires")
+    conn = psycopg2.connect("host=firesdbinstance.cwspjcvdc38q.us-west-2.rds.amazonaws.com port=5432 user=Administratos password={} dbname=fires".format(os.environ['AWS_DB_PASSWORD']))
     cur = conn.cursor()
     with open(filepath) as f:
         cur.copy_from(f, 'current_fires', sep=',')
