@@ -5,9 +5,19 @@ app = Flask(__name__)
 data_model = DataModel()
 
 @app.route('/')
+def home():
+    current_fires = data_model.get_top_fires()
+    return render_template('index.html', current_fires=current_fires)
+
+@app.route('/index.html')
 def index():
     current_fires = data_model.get_top_fires()
-    return render_template('home.html', current_fires=current_fires)
+    return render_template('index.html', current_fires=current_fires)
+
+@app.route('/charts.html')
+def charts():
+    current_fires = data_model.get_top_fires()
+    return render_template('charts.html', current_fires=current_fires)
 
 @app.route("/predict_single", methods=["POST"])
 def translate():
