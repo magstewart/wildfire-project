@@ -88,23 +88,27 @@
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
                 <tr>
+                  <th>Priority Score</th>
                   <th>Discovery Date</th>
+                  <th>County</th>
                   <th>Latitude</th>
                   <th>Longitude</th>
-                  <th>Priority Score</th>
+
                 </tr>
               </thead>
               <tfoot>
                 <tr>
+                  <th>Priority Score</th>
                   <th>Discovery Date</th>
+                  <th>County</th>
                   <th>Latitude</th>
                   <th>Longitude</th>
-                  <th>Priority Score</th>
                 </tr>
               </tfoot>
               <tbody>
                 {% for line in current_fires %}
                 <tr>
+                  <td>{{ line.4 }}</td>
                   <td>{{ line.0 }}</td>
                   <td>{{ line.1 }}</td>
                   <td>{{ line.2 }}</td>

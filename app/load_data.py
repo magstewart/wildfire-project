@@ -7,7 +7,7 @@ class DataModel():
         conn = psycopg2.connect("host=firesdbinstance.cwspjcvdc38q.us-west-2.rds.amazonaws.com port=5432 user=Administratos password={} dbname=fires".format(os.environ['AWS_DB_PASSWORD']))
         cur = conn.cursor()
 
-        cur.execute('''SELECT StartDate, Latitude, Longitude, Probability
+        cur.execute('''SELECT StartDate, County, Latitude, Longitude, Probability
                        FROM current_fires ORDER BY Probability DESC
                        LIMIT 30''')
 

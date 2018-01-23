@@ -33,7 +33,7 @@ def predict_on_raw_data(input_path, output_path):
     df['prediction'] = preds
     df['fire_id'] = 123
     #df.sort_values('prediction', inplace=True, ascending=False)
-    df[['fire_id', 'date_start', 'latitude_x', 'longitude_x', 'county',
+    df[['fire_id', 'date_start', 'latitude_x', 'longitude_x', 'fips_name',
         'prediction', 'fire_size', 'prediction']].to_csv(
         output_path, index=False, header=False)
 
