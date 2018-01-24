@@ -33,6 +33,7 @@ def clean_fire(input_path, output_path):
     df['date_end']=pd.to_datetime(df['cont_date'] - epoch, unit='D')
     df['length'] = df['date_end'] - df['date_start']
     df['length'] = df['length'].map(lambda x : x.days)
+    df = df.drop_duplicates(inplace=True)
 
 
     df.to_csv(output_path, index=False)
