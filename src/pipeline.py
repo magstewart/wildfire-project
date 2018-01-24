@@ -35,7 +35,6 @@ def clean_fire(input_path, output_path):
     df['length'] = df['length'].map(lambda x : x.days)
     df = df.drop_duplicates(inplace=True)
 
-
     df.to_csv(output_path, index=False)
 
 
@@ -172,6 +171,7 @@ def merge_fire_weather(fire_filepath, weather_filepath, output_path):
     combined = pd.merge(fires, weather, how='left',
                     left_on=['weather_station', 'fire_year', 'discovery_doy'],
                     right_on=['station', 'year', 'doy'])
+    combined['tmax'].loc[combined['tmax'] > 150] = combined['tmax'].loc[combined['tmax'] > 150]/100
     combined.to_csv(output_path, index=False)
 
 def engineer_features(input_filepath, output_filepath, training_data=True):
