@@ -226,6 +226,12 @@ def concat_weather_feature(df, window, col, metric, weather):
     return df_temp
 
 
+def split_final_test(input_path, train_path, test_path):
+    df = pd.read_csv(input_path)
+    df[df['fire_year'] == 2015].to_csv(test_path, index=False)
+    df[(df['fire_year'] < 2015) & (df['fire_year'] > 1991)].to_csv(train_path, index=False)
+
+
 
 def get_model_features(filepath, features, label=None, positive_class=None,
                         training_data=True):

@@ -53,11 +53,19 @@ if params['merge_fire_weather']:
 if params.get('engineer_features'):
     print ('Engineering features\n')
     pipeline.engineer_features(params['combined_data_filepath'],
-                               params['engineered_data_output'])
+                               params['clean_weather_data_filepath'],
+                               params['engineered_data_output'],
+                               params['engineered_weather_features'])
+
+if params.get('split_final_test_data'):
+    print ('Splitting final test data\n')
+    pipeline.split_final_test(params['engineered_data_output'],
+                              params['final_train_path'],
+                              params['final_test_path'])
 
 if params.get('new_model'):
     print ('Fitting a new model\n')
-    X, y = pipeline.get_model_features(params['engineered_data_output'],
+    X, y = pipeline.get_model_features(params['final_train_path'],
                                        params['model_features'],
                                        params['model_label'],
                                        params['positive_class'])
