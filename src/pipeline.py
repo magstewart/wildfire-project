@@ -173,10 +173,12 @@ def merge_fire_weather(fire_filepath, weather_filepath, output_path):
                     right_on=['station', 'year', 'doy'])
     combined['tmax'].loc[combined['tmax'] > 150] = combined['tmax'].loc[combined['tmax'] > 150]/100
     combined = combined.drop(['latitude_y', 'longitude_y', 'station', 'date',
-                              'month_y'], axis=1)
+                              'month_y', 'doy', 'year'], axis=1)
+    combined.drop_duplicates(inplace=True)
     combined.to_csv(output_path, index=False)
 
-def engineer_features(input_filepath, output_filepath, training_data=True):
+def engineer_features(input_filepath, weather_filepath,
+                      output_filepath, features, training_data=True):
     '''
     Adds engineeref feature columns to the data set
 
@@ -190,12 +192,40 @@ def engineer_features(input_filepath, output_filepath, training_data=True):
     None
     '''
     df = pd.read_csv(input_filepath)
-    df.drop_duplicates(inplace=True)
+    weather = pd.read_csv(weather_filepath)
+    df['date_start'] = pd.to_datetime(df['date_start'])
+    weather['date'] = pd.to_datetime(weather['date'])
+
+    for feature in features:
+        print ('engineering {}'.format(feature['name']))
+        df_merge = concat_weather_feature(df, feature['window'], feature['col'],
+                                          feature['metric'], weather)
+        df_merge.columns=['station', 'date', feature['name']]
+        df = df.merge(df_merge, how='left', left_on=['weather_station', 'date_start'],
+                      right_on=['station', 'date'], copy=False)
+        df.drop(['station', 'date'], axis=1, inplace=True)
 
     if training_data:
         df['cause_group'] = np.vectorize(group_cause)(df['stat_cause_descr'])
 
     df.to_csv(output_filepath, index=False)
+
+def weather_feature(window, col, station, metric, weather):
+    temp_df = weather.loc[weather['station']==station][['station','date', col]]
+    temp_df = temp_df.sort_values('date')
+    if metric == 'sum':
+        return temp_df.rolling(window, on='date').sum()
+    if metric == 'mean':
+        return temp_df.rolling(window, on='date').mean()
+
+def concat_weather_feature(df, window, col, metric, weather):
+    df_temp = pd.DataFrame()
+    for station in df['weather_station'].unique():
+        df_temp = pd.concat([df_temp, weather_feature(window, col,
+                            station, metric, weather)])
+    return df_temp
+
+
 
 def get_model_features(filepath, features, label=None, positive_class=None,
                         training_data=True):
