@@ -94,7 +94,7 @@ class Model():
             loss.append(fold_loss)
 
             if stages:
-                staged_loss, optimal_n_trees, loss_optimal = self.staged_predictions(X_test)
+                staged_loss, optimal_n_trees, loss_optimal = self.staged_predictions(X_test, y_test)
                 staged_loss_all_folds.append(staged_loss)
                 optimal_n_trees_all_folds.append(optimal_n_trees)
                 loss_optimal_n_all_folds.append(loss_optimal)
@@ -129,7 +129,7 @@ class Model():
         for i, preds in enumerate(staged_preds):
             staged_loss[i] = log_loss(y_test, preds[:,1])
         optimal_n_trees = np.argmin(staged_loss)
-        loss_optimal = staged_loss[optimal_n_trees][fold-1]
+        loss_optimal = staged_loss[optimal_n_trees]
         return staged_loss, optimal_n_trees, loss_optimal
 
     def final_model(self, X, y):
