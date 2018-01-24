@@ -19,7 +19,8 @@ def prepare_raw_data(input_path, output_path):
 
     pipeline.test_data_pipeline(input_path,
                                 params['clean_weather_data_filepath'],
-                                output_path)
+                                output_path,
+                                params['engineered_weather_features'])
 
 def predict_with_score(input_path, output_path):
     config_file = '/Users/Maggie/galvanize/wildfire-project/config.json'

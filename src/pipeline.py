@@ -19,7 +19,7 @@ def clean_fire(input_path, output_path):
     '''
     # import all fire data to pandas
     df = pd.read_csv(input_path)
-    #df = df.drop('Unnamed: 0', axis=1)
+    df = df.drop('Unnamed: 0', axis=1)
 
     # Column names
     columns = df.columns
@@ -33,7 +33,8 @@ def clean_fire(input_path, output_path):
     df['date_end']=pd.to_datetime(df['cont_date'] - epoch, unit='D')
     df['length'] = df['date_end'] - df['date_start']
     df['length'] = df['length'].map(lambda x : x.days)
-    df = df.drop_duplicates(inplace=True)
+
+    df.drop_duplicates(inplace=True)
 
     df.to_csv(output_path, index=False)
 
@@ -195,7 +196,6 @@ def engineer_features(input_filepath, weather_filepath,
     weather = pd.read_csv(weather_filepath)
     df['date_start'] = pd.to_datetime(df['date_start'])
     weather['date'] = pd.to_datetime(weather['date'])
-
     for feature in features:
         print ('engineering {}'.format(feature['name']))
         df_merge = concat_weather_feature(df, feature['window'], feature['col'],
@@ -282,11 +282,12 @@ def group_cause(cause):
     elif cause in other:
         return 'other'
 
-def test_data_pipeline(input_path, weather_filepath, output_path):
-    clean_fire(input_path, output_path)
-    add_stations_to_fire(output_path, weather_filepath, output_path)
-    merge_fire_weather(output_path, weather_filepath, output_path)
-    engineer_features(output_path, output_path, False)
+def test_data_pipeline(input_path, weather_filepath, output_path, features):
+    #clean_fire(input_path, output_path)
+    #add_stations_to_fire(output_path, weather_filepath, output_path)
+    #merge_fire_weather(output_path, weather_filepath, output_path)
+
+    engineer_features(output_path, weather_filepath, output_path, features, False)
 
 
 if __name__ == '__main__':
