@@ -172,6 +172,8 @@ def merge_fire_weather(fire_filepath, weather_filepath, output_path):
                     left_on=['weather_station', 'fire_year', 'discovery_doy'],
                     right_on=['station', 'year', 'doy'])
     combined['tmax'].loc[combined['tmax'] > 150] = combined['tmax'].loc[combined['tmax'] > 150]/100
+    combined = combined.drop(['latitude_y', 'longitude_y', 'station', 'date',
+                              'month_y'], axis=1)
     combined.to_csv(output_path, index=False)
 
 def engineer_features(input_filepath, output_filepath, training_data=True):
