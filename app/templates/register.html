@@ -28,12 +28,18 @@
     	    url: "/predict_single",
     		    contentType: "application/json",
     		      data: JSON.stringify(new_fire),
-              success: function(predict_single){
+              success: function(result){
 		              $(".hidden").css("display","inline").html(
-                    predict_single);
+                    "Expected return: $" + result["return"] + "    Probability of human cause: " + result["probability"]);
     	       }});
   	   }
     </script>
+
+    <style>
+    .hidden {
+	  display: none;
+	}
+  </style>
 
 </head>
 
@@ -78,6 +84,7 @@
 
           <a class="btn btn-primary btn-block" onclick="submit();">Submit</a>
         </form>
+        <p><span class="hidden"></span></p>
         <div class="text-center">
           <a class="d-block small mt-3" href="index.html">Back to Dashboard</a>
           <a class="d-block small" href="forgot-password.html">Upload csv</a>

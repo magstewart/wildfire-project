@@ -30,10 +30,15 @@ class DataModel():
         one_df['latitude'] = pd.to_numeric(one_df['latitude'])
         one_df['longitude'] = pd.to_numeric(one_df['longitude'])
         one_df['fire_size'] = pd.to_numeric(one_df['fire_size'])
+        print (one_df)
         path = '/Users/Maggie/galvanize/wildfire-project/data/temp_one_fire.csv'
         one_df.to_csv(path, index=False)
         predict.prepare_raw_data(path, path)
         predict.predict_with_score(path, path)
         one_df = pd.read_csv('../data/temp_one_fire.csv', header=None)
-        print(one_df)
-        return one_df.to_json()
+        one_df.columns = ['id', 'date', 'latitude', 'longitude', 'county',
+                          'probability', 'area', 'return']
+        one_df['probability'] = one_df['probability'].map(lambda x:"{:.2f}".format(x))
+        one_df['return'] = one_df['return'].map(lambda x:"{:.0f}".format(x))
+        print(one_df.to_dict(orient='records')[0])
+        return one_df.to_dict(orient='records'[0])

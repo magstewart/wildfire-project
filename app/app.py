@@ -33,13 +33,14 @@ def login():
 @app.route("/predict_single", methods=["POST"])
 def predict_single():
     data = request.json
-    return data_model.predict_single(data)
+    result = data_model.predict_single(data)
+    return jsonify(result)
     #noun, adjective = str(data['noun']), str(data['adjective'])
     #print (noun, adjective)
     #noun_s, adjective_s = _translate_spanish(noun, adjective)
     #print (noun_s, adjective_s)
     #return jsonify({'noun_s': noun_s, 'adjective_s': adjective_s})
-    
+
 
 #def _translate_spanish(noun, adjective):
     #noun_s = noun + 'o'
