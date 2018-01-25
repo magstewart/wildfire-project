@@ -19,7 +19,8 @@ def clean_fire(input_path, output_path):
     '''
     # import all fire data to pandas
     df = pd.read_csv(input_path)
-    df = df.drop('Unnamed: 0', axis=1)
+    if 'Unnamed: 0' in df.columns:
+        df = df.drop('Unnamed: 0', axis=1)
 
     # Column names
     columns = df.columns
@@ -27,12 +28,18 @@ def clean_fire(input_path, output_path):
     df.columns = columns
 
     # convert DISCOVERY_DATE from julian date to datetime and add month column
-    epoch = pd.to_datetime(0, unit='s').to_julian_date()
-    df['date_start']=pd.to_datetime(df['discovery_date'] - epoch, unit='D')
+    if 'discovery_date' in df.columns:
+        epoch = pd.to_datetime(0, unit='s').to_julian_date()
+        df['date_start']=pd.to_datetime(df['discovery_date'] - epoch, unit='D')
+    else:
+        df['date_start'] = pd.to_datetime(df['date_start'])
+        df['fire_year'] = df['date_start'].map(lambda x : x.year)
+        df['discovery_doy'] = df['date_start'].map(lambda x : x.dayofyear)
     df['month'] = df['date_start'].map(lambda x : x.month)
-    df['date_end']=pd.to_datetime(df['cont_date'] - epoch, unit='D')
-    df['length'] = df['date_end'] - df['date_start']
-    df['length'] = df['length'].map(lambda x : x.days)
+    if 'cont_date' in df.columns:
+        df['date_end']=pd.to_datetime(df['cont_date'] - epoch, unit='D')
+        df['length'] = df['date_end'] - df['date_start']
+        df['length'] = df['length'].map(lambda x : x.days)
 
     df.drop_duplicates(inplace=True)
 
@@ -283,9 +290,9 @@ def group_cause(cause):
         return 'other'
 
 def test_data_pipeline(input_path, weather_filepath, output_path, features):
-    #clean_fire(input_path, output_path)
-    #add_stations_to_fire(output_path, weather_filepath, output_path)
-    #merge_fire_weather(output_path, weather_filepath, output_path)
+    clean_fire(input_path, output_path)
+    add_stations_to_fire(output_path, weather_filepath, output_path)
+    merge_fire_weather(output_path, weather_filepath, output_path)
 
     engineer_features(output_path, weather_filepath, output_path, features, False)
 

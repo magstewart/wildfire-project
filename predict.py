@@ -30,7 +30,7 @@ def predict_with_score(input_path, output_path):
     X = pipeline.get_model_features(input_path,
                                     params['model_features'],
                                     training_data=False)
-    with open('model.pkl', 'rb') as f:
+    with open('/Users/Maggie/galvanize/wildfire-project/model.pkl', 'rb') as f:
         model = pickle.load(f)
         preds = model.predict_proba(X)[:,1]
 

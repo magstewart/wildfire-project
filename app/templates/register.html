@@ -14,6 +14,27 @@
   <link href="static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
   <!-- Custom styles for this template-->
   <link href="static/css/sb-admin.css" rel="stylesheet">
+
+  <script>
+      submit = function(){
+    	  date_in = $("#inputDate").val()
+        latitude_in = $("#inputLat").val()
+        longitude_in = $("#inputLong").val()
+        area_in = $("#inputArea").val()
+        county_in = $("#inputCounty").val()
+    	  new_fire = {date_start : date_in, latitude : latitude_in, longitude : longitude_in, fire_size:area_in, fips_name:county_in}
+
+    	  $.post({
+    	    url: "/predict_single",
+    		    contentType: "application/json",
+    		      data: JSON.stringify(new_fire),
+              success: function(predict_single){
+		              $(".hidden").css("display","inline").html(
+                    predict_single);
+    	       }});
+  	   }
+    </script>
+
 </head>
 
 <body class="bg-dark">
@@ -55,7 +76,7 @@
             </div>
           </div>
 
-          <a class="btn btn-primary btn-block" href="login.html">Submit</a>
+          <a class="btn btn-primary btn-block" onclick="submit();">Submit</a>
         </form>
         <div class="text-center">
           <a class="d-block small mt-3" href="index.html">Back to Dashboard</a>

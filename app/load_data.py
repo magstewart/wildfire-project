@@ -1,6 +1,10 @@
 import pandas as pd
 import psycopg2
 import os
+import sys
+
+sys.path.append("/Users/Maggie/galvanize/wildfire-project/")
+import predict
 
 class DataModel():
     def __init__(self):
@@ -16,6 +20,20 @@ class DataModel():
         cur.close()
         conn.close()
 
-
     def get_top_fires(self):
         return self.data
+
+    def predict_single(self, d):
+        one_df = pd.DataFrame(list(d.values())).T
+        one_df.columns = list(d.keys())
+        one_df['date_start'] = pd.to_datetime(one_df['date_start'])
+        one_df['latitude'] = pd.to_numeric(one_df['latitude'])
+        one_df['longitude'] = pd.to_numeric(one_df['longitude'])
+        one_df['fire_size'] = pd.to_numeric(one_df['fire_size'])
+        path = '/Users/Maggie/galvanize/wildfire-project/data/temp_one_fire.csv'
+        one_df.to_csv(path, index=False)
+        predict.prepare_raw_data(path, path)
+        predict.predict_with_score(path, path)
+        one_df = pd.read_csv('../data/temp_one_fire.csv', header=None)
+        print(one_df)
+        return one_df.to_json()
