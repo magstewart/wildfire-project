@@ -87,32 +87,32 @@
           <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
               <thead>
-                <tr>
-                  <th>Expected Return ($)</th>
-                  <th>Discovery Date</th>
-                  <th>County</th>
-                  <th>Latitude</th>
-                  <th>Longitude</th>
+                <tr bgcolor="CBC6C5" align="center">
+                  <th align="center">Expected Return ($)</th>
+                  <th align="center">Discovery Date</th>
+                  <th align="center">County</th>
+                  <th align="center">Latitude</th>
+                  <th align="center">Longitude</th>
 
                 </tr>
               </thead>
               <tfoot>
-                <tr>
-                  <th>Expected Return ($)</th>
-                  <th>Discovery Date</th>
-                  <th>County</th>
-                  <th>Latitude</th>
-                  <th>Longitude</th>
+                <tr bgcolor="CBC6C5" align="center">
+                  <th align="center">Expected Return ($)</th>
+                  <th align="center">Discovery Date</th>
+                  <th align="center">County</th>
+                  <th align="center">Latitude</th>
+                  <th align="center">Longitude</th>
                 </tr>
               </tfoot>
               <tbody>
                 {% for line in current_fires %}
                 <tr>
-                  <td>{{ line.4 }}</td>
-                  <td>{{ line.0 }}</td>
-                  <td>{{ line.1 }}</td>
-                  <td>{{ line.2 }}</td>
-                  <td>{{ line.3 }}</td>
+                  <td align="center">{{ line.4 }}</td>
+                  <td align="center">{{ line.0 }}</td>
+                  <td align="center">{{ line.1 }}</td>
+                  <td align="center">{{ line.2 }}</td>
+                  <td align="center">{{ line.3 }}</td>
                 </tr>
                 {% endfor %}
               </tbody>
