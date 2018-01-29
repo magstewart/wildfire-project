@@ -17,6 +17,8 @@
 
   <script>
       submit = function(){
+        $(".hidden").css("display","inline").html(
+          "Calculating, this will take a minute.");
     	  date_in = $("#inputDate").val()
         latitude_in = $("#inputLat").val()
         longitude_in = $("#inputLong").val()
@@ -30,7 +32,7 @@
     		      data: JSON.stringify(new_fire),
               success: function(result){
 		              $(".hidden").css("display","inline").html(
-                    "Expected return: $" + result["return"] + "    Probability of human cause: " + result["probability"]);
+                    "Expected return: $" + result.return + "    Probability of human cause: " + result.probability);
     	       }});
   	   }
     </script>
