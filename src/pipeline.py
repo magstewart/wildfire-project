@@ -1,8 +1,9 @@
 import pandas as pd
 import numpy as np
 import pyspark as ps
+from geopy.geocoders import Nominatim
 
-def clean_fire(input_path, output_path):
+def clean_fire(input_path, output_path, counties=False):
     '''
     Converts DISCOVERY_DATE from julian data to datetime and creates other
     date related columns. Converts column names to lower case.
@@ -43,6 +44,11 @@ def clean_fire(input_path, output_path):
 
     df.drop_duplicates(inplace=True)
 
+    if counties:
+        geolocator = Nominatim()
+        df['fips_name'] = np.vectorize(get_county, excluded=['geolocator'])(
+                           df['latitude'], df['longitude'], geolocator)
+
     df.to_csv(output_path, index=False)
 
 
@@ -79,6 +85,9 @@ def clean_weather(input_path, output_path, weather_raw_features):
 
     df_sorted.to_csv(output_path, index=False)
 
+def get_county(lat, lon, geolocator):
+    location = geolocator.reverse("{}, {}".format(lat, lon))
+    return location.raw['address']['county'][:-7]
 
 def get_station_coordinates(input_path, output_path):
     '''
@@ -290,7 +299,8 @@ def group_cause(cause):
         return 'other'
 
 def test_data_pipeline(input_path, weather_filepath, output_path, features):
-    clean_fire(input_path, output_path)
+    clean_fire(input_path, output_path, True)
+
     add_stations_to_fire(output_path, weather_filepath, output_path)
     merge_fire_weather(output_path, weather_filepath, output_path)
 

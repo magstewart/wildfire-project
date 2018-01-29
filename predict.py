@@ -43,6 +43,7 @@ def predict_with_score(input_path, output_path):
                              - (investigation_base +
                                 investigation_scale * df['fire_size']))
     df['fire_id'] = 123
+    df['expected_return'] = df['expected_return'].astype('int')
     #df.sort_values('prediction', inplace=True, ascending=False)
     df[['fire_id', 'date_start', 'latitude_x', 'longitude_x', 'fips_name',
         'prediction', 'fire_size', 'expected_return']].to_csv(

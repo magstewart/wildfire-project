@@ -16,18 +16,11 @@ def index():
 
 @app.route('/charts.html')
 def charts():
-    current_fires = data_model.get_top_fires()
-    return render_template('charts.html', current_fires=current_fires)
+    return render_template('charts.html')
 
-@app.route('/navbar.html')
+@app.route('/register.html')
 def navbar():
-    current_fires = data_model.get_top_fires()
-    return render_template('register.html', current_fires=current_fires)
-
-@app.route('/login.html')
-def login():
-    current_fires = data_model.get_top_fires()
-    return render_template('index.html', current_fires=current_fires)
+    return render_template('register.html')
 
 
 @app.route("/predict_single", methods=["POST"])
