@@ -6,8 +6,8 @@ data_model = DataModel()
 
 @app.route('/')
 def home():
-    current_fires = data_model.get_top_fires()
-    return render_template('index.html', current_fires=current_fires)
+    #current_fires = data_model.get_top_fires()
+    return render_template('home.html')
 
 @app.route('/index.html')
 def index():
@@ -17,6 +17,10 @@ def index():
 @app.route('/charts.html')
 def charts():
     return render_template('charts.html')
+
+@app.route('/map.html')
+def map():
+    return render_template('map.html')
 
 @app.route('/register.html')
 def navbar():

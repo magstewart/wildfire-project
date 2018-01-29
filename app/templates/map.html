@@ -7,13 +7,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Wildfire Investigation Dashboard</title>
+  <title>Wildfire Data Visualizations</title>
   <!-- Bootstrap core CSS-->
   <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
   <link href="static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-  <!-- Page level plugin CSS-->
-  <link href="static/vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet">
   <!-- Custom styles for this template-->
   <link href="static/css/sb-admin.css" rel="stylesheet">
 </head>
@@ -73,55 +71,26 @@
 
   <div class="content-wrapper">
     <div class="container-fluid">
-      <!-- Breadcrumbs-->
+          <!-- Breadcrumbs-->
 
-      <!-- Icon Cards-->
+          <!-- Area Chart Example-->
 
-      <!-- Area Chart Example-->
+          <div class="row">
+            <div class="col-lg-10">
+              <!-- Example Bar Chart Card-->
+              <div class="card mb-3">
+                <div class="card-header">
+                  <i class="fa fa-bar-chart"></i> Locations of wildfires with highest expected return</div>
+                <div class="card-body">
+                  <img src="static/img/top_priority_map.png" alt="Fires by month">
+                  <!--<canvas id="myBarChart" width="100" height="50"></canvas>-->
+                </div>
+                <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+              </div>
+            </div>
 
-      <!-- Example DataTables Card-->
-      <div class="card mb-3">
-        <div class="card-header">
-          <i class="fa fa-table"></i> Unresolved Cases </div>
-        <div class="card-body">
-          <div class="table-responsive">
-            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-              <thead>
-                <tr bgcolor="CBC6C5" align="center">
-                  <th align="center">Expected Return ($)</th>
-                  <th align="center">Discovery Date</th>
-                  <th align="center">County</th>
-                  <th align="center">Latitude</th>
-                  <th align="center">Longitude</th>
-
-                </tr>
-              </thead>
-              <tfoot>
-                <tr bgcolor="CBC6C5" align="center">
-                  <th align="center">Expected Return ($)</th>
-                  <th align="center">Discovery Date</th>
-                  <th align="center">County</th>
-                  <th align="center">Latitude</th>
-                  <th align="center">Longitude</th>
-                </tr>
-              </tfoot>
-              <tbody sorting_asc>
-                {% for line in current_fires %}
-                <tr>
-                  <td align="center">{{ line.4 }}</td>
-                  <td align="center">{{ line.0 }}</td>
-                  <td align="center">{{ line.1 }}</td>
-                  <td align="center">{{ line.2 }}</td>
-                  <td align="center">{{ line.3 }}</td>
-                </tr>
-                {% endfor %}
-              </tbody>
-            </table>
           </div>
         </div>
-        <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
-      </div>
-    </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <footer class="sticky-footer">
@@ -160,12 +129,9 @@
     <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
     <!-- Page level plugin JavaScript-->
     <script src="static/vendor/chart.js/Chart.min.js"></script>
-    <script src="static/vendor/datatables/jquery.dataTables.js"></script>
-    <script src="static/vendor/datatables/dataTables.bootstrap4.js"></script>
     <!-- Custom scripts for all pages-->
     <script src="static/js/sb-admin.min.js"></script>
     <!-- Custom scripts for this page-->
-    <script src="static/js/sb-admin-datatables.min.js"></script>
     <script src="static/js/sb-admin-charts.min.js"></script>
   </div>
 </body>

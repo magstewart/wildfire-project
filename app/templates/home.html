@@ -1,77 +1,47 @@
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <title>Wildfire Cuase Investigations</title>
+  <!-- Bootstrap core CSS-->
+  <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom fonts for this template-->
+  <link href="static/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <!-- Custom styles for this template-->
+  <link href="static/css/sb-admin.css" rel="stylesheet">
 
-  <title>Wildfire Investigation Dashboard</title>
-  <meta name="description" content="Wildfire Dashboard">
-  <meta name="author" content="Maggie Stewart">
-  <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
-
-  <script>
-      submit = function(){
-    	  date_in = $("#date_in").val()
-        latitude_in = $("#latitude_in").val()
-        longitude_in = $("#longitude_in").val()
-        area_in = $("#area_in").val()
-    	  new_fire = {date_in : date_in, latitude_in : latitude_in, longitude_in : longitude_in, area_in:area_in}
-
-    	  $.post({
-    	    url: "/predict_single",
-    		    contentType: "application/json",
-    		      data: JSON.stringify(new_fire),
-              success: function(translation){
-		              $(".hidden").css("display","inline").html(
-                    "Thank you for your submission.  Updating dashboard...");
-    	       }});
-  	   }
-    </script>
-    <style>
-      .hidden {
-	       display: none;
-	     }
-    </style>
-
+  <style>
+  body {
+    background-image: url("static/img/fire_bg.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+  </style>
 </head>
 
 <body>
+  <div class="container">
+    <div class="card card-login mx-auto mt-5">
+      <div class="card-header">Wildfire Investigation Central</div>
+      <div class="card-body">
 
-    <h1>Wildfire Investigation Dashboard</h1>
+          <a class="btn btn-primary btn-block" href="index.html">Go To Dashboard</a>
+          <a class="btn btn-primary btn-block" href="map.html">View Priority Map</a>
+          <a class="btn btn-primary btn-block" href="register.html">Get New Predictions</a>
 
-    <p>Unresolved Cases:</p>
-    <table>
-
-      <tr>
-        <th>Discovery Date</th>
-        <th>Latitude</th>
-        <th>Longitude</th>
-        <th>Priority Score</th>
-      </tr>
-      {% for line in current_fires %}
-      <tr>
-        <td>{{ line.date_start }}</td>
-        <td>{{ line.latitude_x }}</td>
-        <td>{{ line.longitude_x }}</td>
-        <td>{{ line.prediction }}</td>
-      </tr>
-      {% endfor %}
-    </table>
-
-      <h3>Add a new entry</h3>
-      <label>Discovery date:</label>
-    	<input type="text" placeholder="yyyy-mm-dd" id="date_in">
-      <label>Latitue:</label>
-    	<input type="text" placeholder="latitude" id="latitude_in">
-      <label>Longitude:</label>
-    	<input type="text" placeholder="longitude" id="longitude_in">
-      <label>Area:</label>
-    	<input type="text" placeholder="area in acres" id="area_in">
-
-
-    	<button onclick="submit();">Submit</button>
-
-      <p><span class="hidden"></span></p>
-
-
-
+      </div>
+    </div>
+  </div>
+  <!-- Bootstrap core JavaScript-->
+  <script src="static/vendor/jquery/jquery.min.js"></script>
+  <script src="static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <!-- Core plugin JavaScript-->
+  <script src="static/vendor/jquery-easing/jquery.easing.min.js"></script>
 </body>
+
 </html>
