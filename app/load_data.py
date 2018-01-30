@@ -40,5 +40,5 @@ class DataModel():
                           'probability', 'area', 'return']
         one_df['probability'] = one_df['probability'].map(lambda x:"{:.2f}".format(x))
         one_df['return'] = one_df['return'].map(lambda x:"{:.0f}".format(x))
-        print(one_df.to_dict(orient='records')[0])
+        #print(one_df.to_dict(orient='records')[0])
         return one_df.to_dict(orient='records'[0])

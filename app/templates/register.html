@@ -31,6 +31,7 @@
     		    contentType: "application/json",
     		      data: JSON.stringify(new_fire),
               success: function(result){
+                console.log(result)
 		              $(".hidden").css("display","inline").html(
                     "Expected return: $" + result.return + "    Probability of human cause: " + result.probability);
     	       }});

@@ -17,6 +17,21 @@ def univariate_plot(var1, ax, df, positive_class='human'):
     ax.legend(fontsize='x-large')
     ax.set_title("Probability of human cause vs {}".format(var1))
 
+def univariate_counts_plot(var1, ax, df, positive_class='human'):
+    n_years = len(df['fire_year'].unique())
+    g = df.groupby([var1, 'cause_group'], as_index=False)
+    counts = g.count()
+    counts = counts[[var1, 'cause_group', 'state']]
+    counts = counts.pivot_table(values='state', index=var1, columns='cause_group')
+    counts['prob_human'] = counts[positive_class]/(counts['other']+counts['human'])
+
+    ax.plot(np.arange(len(counts.index)), counts['other']/n_years, label='Natural cause', c='b', linewidth=4)
+    ax.plot(np.arange(len(counts.index)), counts['human']/n_years, label='Human cause', c='r', linewidth=4)
+    ax.set_xlabel(var1)
+    ax.tick_params(axis='both', which='major', labelsize=20)
+    ax.legend(fontsize='x-large')
+    ax.set_title("Probability of human cause vs {}".format(var1))
+
 
 
 def univariate_binned_plot(bins, var1, ax, df, positive_class='human'):

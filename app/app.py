@@ -31,7 +31,8 @@ def navbar():
 def predict_single():
     data = request.json
     result = data_model.predict_single(data)
-    return jsonify(result)
+    print(result)
+    return jsonify(result[0])
     #noun, adjective = str(data['noun']), str(data['adjective'])
     #print (noun, adjective)
     #noun_s, adjective_s = _translate_spanish(noun, adjective)

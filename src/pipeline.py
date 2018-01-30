@@ -221,6 +221,8 @@ def engineer_features(input_filepath, weather_filepath,
                       right_on=['station', 'date'], copy=False)
         df.drop(['station', 'date'], axis=1, inplace=True)
 
+    df = get_grid(df)
+
     if training_data:
         df['cause_group'] = np.vectorize(group_cause)(df['stat_cause_descr'])
 
@@ -241,6 +243,15 @@ def concat_weather_feature(df, window, col, metric, weather):
                             station, metric, weather)])
     return df_temp
 
+def get_grid(df):
+    df['lat_bin'] = (df.latitude_x - 45.56) // 0.35
+    df['long_bin'] = (df.longitude_x + 124.72) // 0.39
+    df['long_bin'].loc[df['long_bin']>19] = 19
+    df['long_bin'].loc[df['long_bin']<0] = 0
+    df['lat_bin'].loc[df['lat_bin']>9] = 9
+    df['lat_bin'].loc[df['lat_bin']<0] = 0
+    df['grid'] = df['lat_bin']*20+df['long_bin']
+    return df
 
 def split_final_test(input_path, train_path, test_path):
     df = pd.read_csv(input_path)
@@ -299,7 +310,7 @@ def group_cause(cause):
         return 'other'
 
 def test_data_pipeline(input_path, weather_filepath, output_path, features):
-    clean_fire(input_path, output_path, True)
+    clean_fire(input_path, output_path, False)
 
     add_stations_to_fire(output_path, weather_filepath, output_path)
     merge_fire_weather(output_path, weather_filepath, output_path)
