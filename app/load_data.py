@@ -3,7 +3,7 @@ import psycopg2
 import os
 import sys
 
-sys.path.append("home/ubuntu/wildfire-project")
+sys.path.insert(0, "home/ubuntu/wildfire-project")
 import predict
 
 class DataModel():
