@@ -77,7 +77,7 @@
   "model_features": ["discovery_doy", "fire_size", "latitude_x",
                      "longitude_x", "elevation", "prcp", "snow", "tmax", "tmin",
                      "prcp_30days", "prcp_90days", "prcp_120days", "prcp_360days",
-                      "tmax_30days", "tmax_7days"],
+                      "tmax_30days", "tmax_7days", "grid_prob"],
   "model_label": "cause_group",
   "positive_class": "human",
   "model_type": "gbc",

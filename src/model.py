@@ -44,7 +44,7 @@ class Model():
         '''
         self.fit_model = self.model.fit(X,y)
 
-    def predict(self, X, staged=False):
+    def predict(self, df, model_features, staged=False):
         '''
         Takes in numpy array of features and returns a probability prediction
         for the positive class
@@ -57,6 +57,8 @@ class Model():
         -------
         y: numpy array predicted probabilities
         '''
+        df['grid_prob'] = df['grid'].map(lambda x:self.grid_proba_final[x])
+        X = df[model_features].values
         return self.fit_model.predict_proba(X)[:,1]
 
     def cross_validate(self, n_folds, X, y, stages=False):
@@ -206,7 +208,7 @@ class Model():
         loss_optimal = staged_loss[optimal_n_trees]
         return staged_loss, optimal_n_trees, loss_optimal
 
-    def final_model(self, X, y):
+    def final_model(self, df, model_features):
         '''
         Performs n_fold cross-validation on the model.
         Returns arrays
@@ -219,6 +221,13 @@ class Model():
         -------
         None
         '''
+        self._grid_prob(df)
+        self.grid_proba_final = self.grid_proba
+        self.grid_proba_final.to_csv('data/final_grid_probs.csv')
+        df= self._merge_grid_prob(df)
+        X = df[model_features].values
+        y = df['cause_group'].values
+        y = y == 'human'
         self.fit(X,y)
         with open('model.pkl', 'wb') as f:
             pickle.dump(self.fit_model, f)

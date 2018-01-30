@@ -27,9 +27,10 @@ def predict_with_score(input_path, output_path):
     with open(config_file, 'r') as f:
         params = json.load(f)
 
-    X = pipeline.get_model_features(input_path,
-                                    params['model_features'],
-                                    training_data=False)
+    df = pd.read_csv(input_path)
+    grid_proba = pd.read_csv('/Users/Maggie/galvanize/wildfire-project/data/final_grid_probs.csv', header=None)
+    df['grid_prob'] = df['grid'].map(lambda x:grid_proba.iloc[int(x),1])
+    X = df[params['model_features']].values
     with open('/Users/Maggie/galvanize/wildfire-project/model.pkl', 'rb') as f:
         model = pickle.load(f)
         preds = model.predict_proba(X)[:,1]
