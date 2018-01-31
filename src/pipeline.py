@@ -1,7 +1,6 @@
 import pandas as pd
 import numpy as np
-import pyspark as ps
-from geopy.geocoders import Nominatim
+
 
 def clean_fire(input_path, output_path, counties=False):
     '''
