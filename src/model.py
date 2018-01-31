@@ -134,6 +134,7 @@ class Model():
         loss_optimal_n_all_folds = []
         optimal_n_trees_all_folds = []
         staged_loss_all_folds = []
+        predictions_all = []
         max_year = df['fire_year'].max()
 
         for fold in range(1, n_folds+1):
@@ -151,7 +152,8 @@ class Model():
             y_test = y_test == 'human'
 
             self.fit(X_train, y_train)
-            predictions = self.predict(X_test)
+            predictions = self.fit_model.predict_proba(X_test)[:,1]
+            predictions_all.append(predictions)
             fold_loss = log_loss(y_test, predictions)
             loss.append(fold_loss)
 
@@ -168,7 +170,10 @@ class Model():
                 print("fold: {}, log-loss: {:.2f}".format(fold, fold_loss))
 
             fold +=1
-        return loss, loss_optimal_n_all_folds, staged_loss_all_folds, optimal_n_trees_all_folds
+        if stages:
+            return loss, loss_optimal_n_all_folds, staged_loss_all_folds, optimal_n_trees_all_folds
+        else:
+            return loss, predictions_all
 
     def _grid_prob(self, df):
         grid_count = df.groupby(['grid', 'cause_group'], as_index=False)['fire_year'].count()
