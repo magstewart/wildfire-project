@@ -31,7 +31,7 @@ class DataModel():
         one_df['longitude'] = pd.to_numeric(one_df['longitude'])
         one_df['fire_size'] = pd.to_numeric(one_df['fire_size'])
         print (one_df)
-        path = 's3://wildfire-project-data/data/temp_one_fire.csv'
+        path = 'http://wildfire-project-data.s3.amazonaws.com/data/temp_one_fire.csv'
         one_df.to_csv(path, index=False)
         predict.prepare_raw_data(path, path)
         predict.predict_with_score(path, path)
