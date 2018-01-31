@@ -13,7 +13,7 @@ import os
 # Run from root directory using python run.py config.json
 
 def prepare_raw_data(input_path, output_path):
-    config_file = '/Users/Maggie/galvanize/wildfire-project/config.json'
+    config_file = '/home/ubuntu/wildfire-project/config.json'
     with open(config_file, 'r') as f:
         params = json.load(f)
 
@@ -23,15 +23,15 @@ def prepare_raw_data(input_path, output_path):
                                 params['engineered_weather_features'])
 
 def predict_with_score(input_path, output_path):
-    config_file = '/Users/Maggie/galvanize/wildfire-project/config.json'
+    config_file = '/home/ubuntu/wildfire-project/config.json'
     with open(config_file, 'r') as f:
         params = json.load(f)
 
     df = pd.read_csv(input_path)
-    grid_proba = pd.read_csv('/Users/Maggie/galvanize/wildfire-project/data/final_grid_probs.csv', header=None)
+    grid_proba = pd.read_csv('s3://wildfire-project-data/data/final_grid_probs.csv', header=None)
     df['grid_prob'] = df['grid'].map(lambda x:grid_proba.iloc[int(x),1])
     X = df[params['model_features']].values
-    with open('/Users/Maggie/galvanize/wildfire-project/model.pkl', 'rb') as f:
+    with open('/home/ubuntu/wildfire-project/model.pkl', 'rb') as f:
         model = pickle.load(f)
         preds = model.predict_proba(X)[:,1]
 

@@ -3,7 +3,7 @@ import psycopg2
 import os
 import sys
 
-sys.path.insert(0, "home/ubuntu/wildfire-project")
+sys.path.insert(0, "/home/ubuntu/wildfire-project")
 import predict
 
 class DataModel():
@@ -31,7 +31,7 @@ class DataModel():
         one_df['longitude'] = pd.to_numeric(one_df['longitude'])
         one_df['fire_size'] = pd.to_numeric(one_df['fire_size'])
         print (one_df)
-        path = '/Users/Maggie/galvanize/wildfire-project/data/temp_one_fire.csv'
+        path = 's3://wildfire-project-data/data/temp_one_fire.csv'
         one_df.to_csv(path, index=False)
         predict.prepare_raw_data(path, path)
         predict.predict_with_score(path, path)
