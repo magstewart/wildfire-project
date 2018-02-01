@@ -36,7 +36,7 @@
   "clean_fire_data": false,
   "clean_fire_data_filepath": "data/clean_fire_data.csv",
   "clean_weather_data": false,
-  "clean_weather_data_filepath": "s3://wildfire-project-data/data/clean_weather_data.csv",
+  "clean_weather_data_filepath": "/data/clean_weather_data.csv",
   "generate_station_coordinates": false,
   "stations_filepath": "data/station_coordinates.csv",
   "add_station_to_fire": false,

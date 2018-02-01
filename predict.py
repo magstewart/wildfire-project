@@ -9,6 +9,7 @@ import sqlite3
 import psycopg2
 import csv
 import os
+import boto3
 
 # Run from root directory using python run.py config.json
 
@@ -28,7 +29,10 @@ def predict_with_score(input_path, output_path):
         params = json.load(f)
 
     df = pd.read_csv(input_path)
-    grid_proba = pd.read_csv('s3://wildfire-project-data/data/final_grid_probs.csv', header=None)
+    s3 = boto3.resource('s3')
+    BUCKET_NAME = 'wildfire-project-data'
+
+    grid_proba = pd.read_csv(s3.Bucket(BUCKET_NAME).download_file('/data/final_grid_probs.csv'), header=None)
     df['grid_prob'] = df['grid'].map(lambda x:grid_proba.iloc[int(x),1])
     X = df[params['model_features']].values
     with open('/home/ubuntu/wildfire-project/model.pkl', 'rb') as f:

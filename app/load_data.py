@@ -2,6 +2,7 @@ import pandas as pd
 import psycopg2
 import os
 import sys
+import boto3
 
 sys.path.insert(0, "/home/ubuntu/wildfire-project")
 import predict
@@ -30,12 +31,12 @@ class DataModel():
         one_df['latitude'] = pd.to_numeric(one_df['latitude'])
         one_df['longitude'] = pd.to_numeric(one_df['longitude'])
         one_df['fire_size'] = pd.to_numeric(one_df['fire_size'])
-        print (one_df)
-        path = 'http://wildfire-project-data.s3.amazonaws.com/data/temp_one_fire.csv'
+
+        path = 'temp_one_fire.csv'
         one_df.to_csv(path, index=False)
         predict.prepare_raw_data(path, path)
         predict.predict_with_score(path, path)
-        one_df = pd.read_csv('../data/temp_one_fire.csv', header=None)
+        one_df = pd.read_csv('temp_one_fire.csv', header=None)
         one_df.columns = ['id', 'date', 'latitude', 'longitude', 'county',
                           'probability', 'area', 'return']
         one_df['probability'] = one_df['probability'].map(lambda x:"{:.2f}".format(x))
