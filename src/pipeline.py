@@ -163,6 +163,7 @@ def get_nearby_station(lat, lon, year, doy, stations):
                                     (stations_date.loc[:,'longitude']-lon)**2)
     if len(stations_date['distance'].values) > 0:
         closest_index = np.argmin(stations_date['distance'].values)
+        print('returning stations')
         return stations_date.iloc[closest_index,0]
     else:
         return None
@@ -315,10 +316,12 @@ def test_data_pipeline(input_path, weather_filepath, output_path, features):
     clean_fire(input_path, output_path, False)
 
     add_stations_to_fire(output_path, weather_filepath, output_path)
+    print('stations added')
     merge_fire_weather(output_path, weather_filepath, output_path)
+    print ('data merged')
 
     engineer_features(output_path, weather_filepath, output_path, features, False)
-
+    print('engineered')
 
 if __name__ == '__main__':
     spark = (ps.sql.SparkSession.builder
