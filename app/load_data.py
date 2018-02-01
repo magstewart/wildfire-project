@@ -27,8 +27,8 @@ class DataModel():
     def predict_single(self, d):
         s3 = boto3.resource('s3')
         BUCKET_NAME = 'wildfire-project-data'
-        s3.Bucket(BUCKET_NAME).download_file('/data/clean_weather_data.csv', '/data/clean_weather_data.csv')
-        s3.Bucket(BUCKET_NAME).download_file('/data/final_grid_probs.csv','/data/final_grid_probs.csv')
+        s3.Bucket(BUCKET_NAME).download_file('data/clean_weather_data.csv', '/data/clean_weather_data.csv')
+        s3.Bucket(BUCKET_NAME).download_file('data/final_grid_probs.csv','/data/final_grid_probs.csv')
 
         one_df = pd.DataFrame(list(d.values())).T
         one_df.columns = list(d.keys())
