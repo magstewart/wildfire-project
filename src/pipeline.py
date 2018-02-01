@@ -125,10 +125,8 @@ def add_stations_to_fire(fire_filepath, weather_filepath, output_file):
     None
     '''
     fires = pd.read_csv(fire_filepath)
-    s3 = boto3.resource('s3')
-    BUCKET_NAME = 'wildfire-project-data'
 
-    weather = pd.read_csv(s3.Bucket(BUCKET_NAME).download_file(weather_filepath))
+    weather = pd.read_csv(weather_filepath)
     stations = weather[['station', 'latitude', 'longitude', 'doy', 'year']]
 
     v_get_station = np.vectorize(get_nearby_station, excluded=['stations'])
@@ -186,10 +184,8 @@ def merge_fire_weather(fire_filepath, weather_filepath, output_path):
     None
     '''
     fires = pd.read_csv(fire_filepath)
-    s3 = boto3.resource('s3')
-    BUCKET_NAME = 'wildfire-project-data'
 
-    weather = pd.read_csv(s3.Bucket(BUCKET_NAME).download_file(weather_filepath))
+    weather = pd.read_csv(weather_filepath)
     combined = pd.merge(fires, weather, how='left',
                     left_on=['weather_station', 'fire_year', 'discovery_doy'],
                     right_on=['station', 'year', 'doy'])
@@ -214,10 +210,8 @@ def engineer_features(input_filepath, weather_filepath,
     None
     '''
     df = pd.read_csv(input_filepath)
-    s3 = boto3.resource('s3')
-    BUCKET_NAME = 'wildfire-project-data'
 
-    weather = pd.read_csv(s3.Bucket(BUCKET_NAME).download_file(weather_filepath))
+    weather = pd.read_csv(weather_filepath)
     df['date_start'] = pd.to_datetime(df['date_start'])
     weather['date'] = pd.to_datetime(weather['date'])
     for feature in features:
