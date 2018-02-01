@@ -39,7 +39,9 @@ class DataModel():
 
         path = 'temp_one_fire.csv'
         one_df.to_csv(path, index=False)
+        print('prepare raw data')
         predict.prepare_raw_data(path, path)
+        print('predict with score')
         predict.predict_with_score(path, path)
         one_df = pd.read_csv('temp_one_fire.csv', header=None)
         one_df.columns = ['id', 'date', 'latitude', 'longitude', 'county',
