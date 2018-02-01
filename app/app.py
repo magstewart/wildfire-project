@@ -22,10 +22,6 @@ def charts():
 def map():
     return render_template('map.html')
 
-@app.route('/register.html')
-def navbar():
-    return render_template('register.html')
-
 
 @app.route("/predict_single", methods=["POST"])
 def predict_single():
