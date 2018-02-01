@@ -184,13 +184,17 @@ def merge_fire_weather(fire_filepath, weather_filepath, output_path):
     -------
     None
     '''
+    print('1')
     fires = pd.read_csv(fire_filepath)
-
+    print('2')
     weather = pd.read_csv(weather_filepath)
+    print('3')
     combined = pd.merge(fires, weather, how='left',
                     left_on=['weather_station', 'fire_year', 'discovery_doy'],
                     right_on=['station', 'year', 'doy'])
+    print('4')
     combined['tmax'].loc[combined['tmax'] > 150] = combined['tmax'].loc[combined['tmax'] > 150]/100
+    print('5')
     combined = combined.drop(['latitude_y', 'longitude_y', 'station', 'date',
                               'month_y', 'doy', 'year'], axis=1)
     combined.drop_duplicates(inplace=True)
