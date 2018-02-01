@@ -23,11 +23,11 @@ def map():
     return render_template('map.html')
 
 @app.route('/fires.html')
-def map():
+def fires():
     return render_template('fires.html')
 
 @app.route('/model.html')
-def map():
+def model():
     return render_template('model.html')
 
 
