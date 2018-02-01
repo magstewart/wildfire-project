@@ -16,7 +16,7 @@ def index():
 
 @app.route('/about.html')
 def charts():
-    return render_template('charts.html')
+    return render_template('fires.html')
 
 @app.route('/map.html')
 def map():
