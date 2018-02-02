@@ -14,18 +14,21 @@ def index():
     current_fires = data_model.get_top_fires()
     return render_template('index.html', current_fires=current_fires)
 
-@app.route('/charts.html')
+@app.route('/about.html')
 def charts():
-    return render_template('charts.html')
+    return render_template('fires.html')
 
 @app.route('/map.html')
 def map():
     return render_template('map.html')
 
-@app.route('/register.html')
-def navbar():
-    return render_template('register.html')
+@app.route('/fires.html')
+def fires():
+    return render_template('fires.html')
 
+@app.route('/model.html')
+def model():
+    return render_template('model.html')
 
 @app.route("/predict_single", methods=["POST"])
 def predict_single():

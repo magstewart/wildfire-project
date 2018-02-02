@@ -7,7 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <title>Wildfire Priority Map</title>
+  <title>About the Project</title>
   <!-- Bootstrap core CSS-->
   <link href="static/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
   <!-- Custom fonts for this template-->
@@ -19,22 +19,22 @@
 <body class="fixed-nav sticky-footer bg-dark" id="page-top">
   <!-- Navigation-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
-    <a class="navbar-brand" href="about.html">Wildfire Cause Investigation Project</a>
+    <a class="navbar-brand" href="index.html">Back to Dashboard</a>
     <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
-          <a class="nav-link" href="index.html">
+          <a class="nav-link" href="fires.html">
             <i class="fa fa-fw fa-table"></i>
-            <span class="nav-link-text">Dashboard</span>
+            <span class="nav-link-text">Washington Wildfires</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Map">
-          <a class="nav-link" href="map.html">
+          <a class="nav-link" href="model.html">
             <i class="fa fa-fw fa-map"></i>
-            <span class="nav-link-text">Map</span>
+            <span class="nav-link-text">Predictive Model</span>
           </a>
         </li>
 
@@ -55,26 +55,31 @@
 
   <div class="content-wrapper">
     <div class="container-fluid">
-          <!-- Breadcrumbs-->
+      <!-- Breadcrumbs-->
 
-          <!-- Area Chart Example-->
+      <!-- Area Chart Example-->
 
-          <div class="row">
-            <div class="col-lg-10">
-              <!-- Example Bar Chart Card-->
-              <div class="card mb-3">
-                <div class="card-header">
-                  <i class="fa fa-bar-chart"></i> Locations of wildfires with highest expected return</div>
-                <div class="card-body">
-                  <img src="static/img/top_priority_map.png" alt="Fires by month">
-                  <!--<canvas id="myBarChart" width="100" height="50"></canvas>-->
-                </div>
+      <div class="row">
+        <div class="col-lg-10">
+          <!-- Example Bar Chart Card-->
+          <div class="card mb-3">
 
-              </div>
+            <div class="card-body">
+              <h3> A Model to Predict the Probability of Human Cause </h3>
+              <p>We trained a soft classifier model to predict the probability of human cause given a fire. </p>
+
+              <img src="static/img/model_flow.png" class="img-responsive" width="700" alt="model_flow">
+              <p>Using the predicted probability, we can calculate the expeted return for the state as a result of investigating that fire.  By ranking the wildfires according to this expected return, we can prioritze investigating ones that are likely to bring in more money. </p>
+
+
+              <!--<canvas id="myBarChart" width="100" height="50"></canvas>-->
             </div>
 
           </div>
         </div>
+
+      </div>
+    </div>
     <!-- /.container-fluid-->
     <!-- /.content-wrapper-->
     <footer class="sticky-footer">
