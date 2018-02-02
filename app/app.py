@@ -30,7 +30,6 @@ def fires():
 def model():
     return render_template('model.html')
 
-
 @app.route("/predict_single", methods=["POST"])
 def predict_single():
     data = request.json

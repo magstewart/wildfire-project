@@ -65,13 +65,11 @@
           <div class="card mb-3">
 
             <div class="card-body">
-              <h3> Wildfires in Washington State </h3>
-              <p>Over 1,000 wildfires occur in Washington every year, costing tax payers more than $60 million. </p>
+              <h3> A Model to Predict the Probability of Human Cause </h3>
+              <p>We trained a soft classifier model to predict the probability of human cause given a fire. </p>
 
-              <img src="static/img/2014_fires_map.png" class="img-responsive" width="700" alt="Fires by month">
-              <p>State investigators are tasked with determining the cause of each wildfire, with the goal of recovering the containment cost for fires that were started due to human activity. </p>
-              <img src="static/img/casue_graph.png" class="img-responsive" width="700" alt="Fires by month">
-              <p> The goal of this project is to find a way to reduce the workload and cost of investigations while still recovering the funds from those fires that were caused by humans. </p>
+              <img src="static/img/model_flow.png" class="img-responsive" width="700" alt="model_flow">
+              <p>Using the predicted probability, we can calculate the expeted return for the state as a result of investigating that fire.  By ranking the wildfires according to this expected return, we can prioritze investigating ones that are likely to bring in more money. </p>
 
 
               <!--<canvas id="myBarChart" width="100" height="50"></canvas>-->
