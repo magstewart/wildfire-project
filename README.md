@@ -43,19 +43,16 @@ The currently open cases, prioritized according the model predictions, can be di
 
 ### Evaluation
 
-* Cross validation using log-loss.  If there are multi-year cycles or trends that vary over 24 year period of the data, I may need to split the train-test sets based on year.
-* Look at the confusion matrix.
-* Look at univariate plots for both actual and predicted probabilities to identify trends that the model may not be capturing.
+The performance of the model was evaluated using test data for the years 2011-2015.  The figure below shows the total return for the state during this five year period as a function of the numbers of fires investigated each year, prioritized according to the model.
 
-### Deployment
+| ![return_vs_number_of_investigations.png](app/static/img/return_vs_number_of_investigations.png) | 
+|:--:| 
+| *Total return vs. number of fires investigated each year* |
 
-A simple web app that can be used by fire departments or state authorities.  It would have the following functions:
+The total return increases rapidly, meaning that the model does a good job of identifying which fires should be investigated first.  The maximum is at 287 fires, continuing to investigate beyond this point would not be profitable.  In fact, zooming into the top region of the graph (see below) reveals that investigating only the top 287 fires according to the model can save the state $1.5 million compared to the current approach of investigating all fires.
 
-* Input: The locations and discovery dates of current fires.  
-  Output: A priority list ranking the fires based on the expected value of the recovered  cost.
-	This would be useful in situations where a fixed number of investigators is available.
-* Input: location and discovery date of a fire.
-  Output: Expected value of the cost or recovered funds if the investigation is carried out.  This would enable an informed     decision on whether or not to investigate.  
+
+
 
 ### Sources
 https://www.dnr.wa.gov/Investigations  
