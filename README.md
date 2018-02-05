@@ -4,7 +4,7 @@ The objective of this project is to create a tool to optimize the process of wil
 
 ### Business Understanding
  
-Washington’s Department of Natural Resources is required by law to recover the suppression costs of wildfires in state or protected lands, whenever the fire was criminally or negligently caused.  With more than 1000 wildfires occurring all across Washington every year, identifying the fires that are most likely to be human-caused could enable prioritization and more efficient use of department resources.
+Washington’s Department of Natural Resources is required by law to recover the suppression costs of wildfires in state or protected lands, whenever the fire was criminally or negligently caused.  A cause investigation is carried out for every fire, but only those caused by human activity will yield a return for the state.  With more than 1000 wildfires occurring all across Washington every year, identifying the fires that are most likely to be human-caused could enable prioritization and more efficient use of department resources.
 
 | ![2014_fires_map.png](app/static/img/2014_fires_map.png) | 
 |:--:| 
@@ -20,38 +20,39 @@ Washington’s Department of Natural Resources is required by law to recover the
 
 #### Feature Engineering
 
-| ![feature_engineering](images/feature_engineering) | 
+Data from different sources were combined to engineer features that, given a fire, are predictive of the probability that it was caused by human activity.  Specifically, the latitude and longitude of each fire is used to obtain the population density at that location.  Additionaly, data from the nearest weather station is used to create aggregate weather features.
 
+| ![feature_engineering.png](images/feature_engineering.png) | 
+|:--:| 
 
-* Group the possible causes into two categories: criminal/negligent and other.  We care about the probability that the cause of the fire is one for which the state can expect to recover the containment cost.
-* Use the coordinates of the weather stations to match the location of a fire to the weather conditions at the nearest station during the days/weeks prior to the fire.  
-* Most weather stations collect precipitation data, but only about ⅓ have temperature data.  
-* Bin the latitude and longitude to create a “time since last fire” variable for each location.
-* Do some research to obtain estimates of the cost of an investigation as well as the containment cost of fires based on their size.
+As an example, consider the total precipitation during the 30 days prior to the start of a fire, shown below.  As expected, most fires take place during very dry months.  However, given that there is a fire, the conditional probability that it was casued by human activity actually increases as the amount of precipitation goes up.
+
+| ![prcp_30days_univariate.png](app/static/img/prcp_30days_univariate.png) | 
+|:--:| 
+| *Fraction of fires and probability of human cause as a function of the total precipitation during the 30 days prior to the start of the fire.* |
 
 ### Modeling
 
-* Soft classification models, e.g.: logistic regression, gradient boosting.
+A gradient boosted soft classifier was trained to predict the probability that the cause of a fire is due to human activity. This predicted probability is then used to calculate the expected return for the state, taking into account the size of the fire and the cost of the investigation.  
 
-Time permitting:
-* Some sort of clustering to engineer features that can feed into the above listed models.
-* An additional model that can be used to predict the size of the fire with only small modifications to the data pipeline.  This would inform the expected cost that could be recovered.
+| ![model_flow.png](app/static/img/model_flow.png) | 
+|:--:| 
+| *Schematic of model flow and deployment* |
+
+The currently open cases, prioritized according the model predictions, can be displayed in a dahsboard for investigators. An example of this tool using 2015 test data is deployed [here](http://fireinvestigator.online).
 
 ### Evaluation
 
-* Cross validation using log-loss.  If there are multi-year cycles or trends that vary over 24 year period of the data, I may need to split the train-test sets based on year.
-* Look at the confusion matrix.
-* Look at univariate plots for both actual and predicted probabilities to identify trends that the model may not be capturing.
+The performance of the model was evaluated using test data for the years 2011-2015.  The figure below shows the total return for the state during this five year period as a function of the numbers of fires investigated each year, prioritized according to the model.
 
-### Deployment
+| ![return_vs_number_of_investigations.png](app/static/img/return_vs_number_of_investigations.png) | 
+|:--:| 
+| *Total return vs. number of fires investigated each year* |
 
-A simple web app that can be used by fire departments or state authorities.  It would have the following functions:
+The total return increases rapidly, meaning that the model does a good job of identifying which fires should be investigated first.  The maximum is at 287 fires, continuing to investigate beyond this point would not be profitable.  In fact, zooming into the top region of the graph (see below) reveals that investigating only the top 287 fires according to the model can save the state $1.5 million compared to the current approach of investigating all fires.
 
-* Input: The locations and discovery dates of current fires.  
-  Output: A priority list ranking the fires based on the expected value of the recovered  cost.
-	This would be useful in situations where a fixed number of investigators is available.
-* Input: location and discovery date of a fire.
-  Output: Expected value of the cost or recovered funds if the investigation is carried out.  This would enable an informed     decision on whether or not to investigate.  
+
+
 
 ### Sources
 https://www.dnr.wa.gov/Investigations  
