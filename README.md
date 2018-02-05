@@ -1,19 +1,22 @@
 # Predicting the Cause of Wildfires
 
-The objective of this project is to create a dashboard that fire departments can use to obtain a prioritized list of wildfires to be investigated.
+The objective of this project is to create a tool to optimize the process of wildfire investigations.
 
 ### Business Understanding
  
-Washington’s Department of Natural Resources is required by law to recover the suppression costs of wildfires in state or protected lands, whenever the fire was criminally or negligently caused.  With more than 1000 wildfires occurring in Washington every year, identifying the fires that are most likely to be human-caused could enable prioritization and more efficient use of department resources.
+Washington’s Department of Natural Resources is required by law to recover the suppression costs of wildfires in state or protected lands, whenever the fire was criminally or negligently caused.  With more than 1000 wildfires occurring all across Washington every year, identifying the fires that are most likely to be human-caused could enable prioritization and more efficient use of department resources.
 
-Additionally, this project could provide guidance for fire prevention.  Approximately 50% of the wildfires investigated by Washington’s DNR are deemed to be human-caused, many of them preventable.  An understanding of weather conditions and locations that are commonly associated with specific causes can lead to targeted educational campaigns to mitigate the risk.
+| ![2014_fires_map.png](app/static/img/2014_fires_map.png) | 
+|:--:| 
+| *Location of Washington wildifires in 2014* |
 
 ### Data Understanding
 
 #### Data Sources
 
-* Spatial Wildfire Occurrence Data for the United State 1992-2015, published by USDA Forest Service.  Contains latitude, longitude, date, cause and size of wildfires across the US.  
-* Weather data from NOAA, including daily precipitation and minimum and maximum temperatures.  I have data from 1999-2015 and should complete the rest of the requests within the next week.
+* Spatial Wildfire Occurrence Data for the United State 1992-2015, published by [USDA Forest Service](https://www.fs.usda.gov/rds/archive/Product/RDS-2013-0009.4/).  Contains latitude, longitude, date, cause and size of wildfires across the US.  
+* Weather data from [NOAA](https://www.ncdc.noaa.gov/cdo-web/datasets), including daily precipitation and minimum and maximum temperatures from over over 1000 weather stations in Washington. 
+* Population density data from [United States Census Bureau](https://catalog.data.gov/dataset/tiger-line-shapefile-2010-2010-state-washington-2010-census-block-state-based-shapefile-with-ho) 
 
 #### Data Preparation
 
