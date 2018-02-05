@@ -52,10 +52,13 @@ The performance of the model was evaluated using test data for the years 2011-20
 
 The total return increases rapidly, meaning that the model does a good job of identifying which fires should be investigated first.  The maximum is at 287 fires, continuing to investigate beyond this point would not be profitable.  In fact, zooming into the top region of the graph (see below) reveals that investigating only the top ranked 287 fires can save the state $1.5 million compared to the current approach of investigating all fires.
 
+<center>
+ 
 | <img align="center" src="app/static/img/zoom_in.png"> | 
 |:--:| 
 | *Total return is maximized by investigatin the 287 top priority fires each year* |
 
+</center>
 
 ### Sources
 https://www.dnr.wa.gov/Investigations  
