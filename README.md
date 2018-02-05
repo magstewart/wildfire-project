@@ -4,7 +4,7 @@ The objective of this project is to create a tool to optimize the process of wil
 
 ### Business Understanding
  
-Washington’s Department of Natural Resources is required by law to recover the suppression costs of wildfires in state or protected lands, whenever the fire was criminally or negligently caused.  With more than 1000 wildfires occurring all across Washington every year, identifying the fires that are most likely to be human-caused could enable prioritization and more efficient use of department resources.
+Washington’s Department of Natural Resources is required by law to recover the suppression costs of wildfires in state or protected lands, whenever the fire was criminally or negligently caused.  A cause investigation is carried out for every fire, but only those caused by human activity will yield a return for the state.  With more than 1000 wildfires occurring all across Washington every year, identifying the fires that are most likely to be human-caused could enable prioritization and more efficient use of department resources.
 
 | ![2014_fires_map.png](app/static/img/2014_fires_map.png) | 
 |:--:| 
@@ -23,6 +23,7 @@ Washington’s Department of Natural Resources is required by law to recover the
 Data from different sources were combined to engineer features that, given a fire, are predictive of the probability that it was caused by human activity.  Specifically, the latitude and longitude of each fire is used to obtain the population density at that location.  Additionaly, data from the nearest weather station is used to create aggregate weather features.
 
 | ![feature_engineering.png](images/feature_engineering.png) | 
+|:--:| 
 
 As an example, consider the total precipitation during the 30 days prior to the start of a fire, shown below.  As expected, most fires take place during very dry months.  However, given that there is a fire, the conditional probability that it was casued by human activity actually increases as the amount of precipitation goes up.
 
@@ -34,12 +35,11 @@ As an example, consider the total precipitation during the 30 days prior to the 
 
 A gradient boosted soft classifier was trained to predict the probability that the cause of a fire is due to human activity. This predicted probability is then used to calculate the expected return for the state, taking into account the size of the fire and the cost of the investigation.  
 
-The currently open cases, prioritized according the model predictions, are displayed in a dahsboard for investigators, which is deployed as a web app [here](http://fireinvestigator.online).
-
 | ![model_flow.png](app/static/img/model_flow.png) | 
 |:--:| 
 | *Schematic of model flow and deployment* |
 
+The currently open cases, prioritized according the model predictions, can be displayed in a dahsboard for investigators. An example of this tool using 2015 test data is deployed [here](http://fireinvestigator.online).
 
 ### Evaluation
 
