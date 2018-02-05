@@ -3,8 +3,8 @@ import psycopg2
 import os
 import sys
 
-sys.path.append("/Users/Maggie/galvanize/wildfire-project/")
-import predict
+#sys.path.append("/Users/Maggie/galvanize/wildfire-project/")
+#import predict
 
 class DataModel():
     def __init__(self):
