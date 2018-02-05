@@ -20,22 +20,26 @@ Washington’s Department of Natural Resources is required by law to recover the
 
 #### Feature Engineering
 
-| ![feature_engineering](images/feature_engineering) | 
+Data from different sources were combined to engineer features that, given a fire, are predictive of the probability that it was caused by human activity.  Specifically, the latitude and longitude of each fire is used to obtain the population density at that location.  Additionaly, data from the nearest weather station is used to create aggregate weather features.
 
+| ![feature_engineering.png](images/feature_engineering.png) | 
 
-* Group the possible causes into two categories: criminal/negligent and other.  We care about the probability that the cause of the fire is one for which the state can expect to recover the containment cost.
-* Use the coordinates of the weather stations to match the location of a fire to the weather conditions at the nearest station during the days/weeks prior to the fire.  
-* Most weather stations collect precipitation data, but only about ⅓ have temperature data.  
-* Bin the latitude and longitude to create a “time since last fire” variable for each location.
-* Do some research to obtain estimates of the cost of an investigation as well as the containment cost of fires based on their size.
+As an example, consider the total precipitation during the 30 days prior to the start of a fire, shown below.  As expected, most fires take place during very dry months.  However, given that there is a fire, the conditional probability that it was casued by human activity actually increases as the amount of precipitation goes up.
+
+| ![prcp_30days_univariate.png](app/static/img/prcp_30days_univariate.png) | 
+|:--:| 
+| *Fraction of fires and probability of human cause as a function of the total precipitation during the 30 days prior to the start of the fire.* |
 
 ### Modeling
 
-* Soft classification models, e.g.: logistic regression, gradient boosting.
+A gradient boosted soft classifier was trained to predict the probability that the cause of a fire is due to human activity. This predicted probability is then used to calculate the expected return for the state, taking into account the size of the fire and the cost of the investigation.  
 
-Time permitting:
-* Some sort of clustering to engineer features that can feed into the above listed models.
-* An additional model that can be used to predict the size of the fire with only small modifications to the data pipeline.  This would inform the expected cost that could be recovered.
+The currently open cases, prioritized according the model predictions, are displayed in a dahsboard for investigators, which is deployed as a web app [here](http://fireinvestigator.online).
+
+| ![model_flow.png](app/static/img/model_flow.png) | 
+|:--:| 
+| *Schematic of model flow and deployment* |
+
 
 ### Evaluation
 
