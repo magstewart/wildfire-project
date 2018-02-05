@@ -18,7 +18,10 @@ Washington’s Department of Natural Resources is required by law to recover the
 * Weather data from [NOAA](https://www.ncdc.noaa.gov/cdo-web/datasets), including daily precipitation and minimum and maximum temperatures from over over 1000 weather stations in Washington. 
 * Population density data from [United States Census Bureau](https://catalog.data.gov/dataset/tiger-line-shapefile-2010-2010-state-washington-2010-census-block-state-based-shapefile-with-ho) 
 
-#### Data Preparation
+#### Feature Engineering
+
+| ![feature_engineering](images/feature_engineering) | 
+
 
 * Group the possible causes into two categories: criminal/negligent and other.  We care about the probability that the cause of the fire is one for which the state can expect to recover the containment cost.
 * Use the coordinates of the weather stations to match the location of a fire to the weather conditions at the nearest station during the days/weeks prior to the fire.  
