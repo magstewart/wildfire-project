@@ -27,16 +27,35 @@
       <ul class="navbar-nav navbar-sidenav" id="exampleAccordion">
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Dashboard">
           <a class="nav-link" href="fires.html">
-            <i class="fa fa-fw fa-table"></i>
+            <i class="fa fa-fw fa-fire"></i>
             <span class="nav-link-text">Washington Wildfires</span>
           </a>
         </li>
         <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Map">
           <a class="nav-link" href="model.html">
-            <i class="fa fa-fw fa-map"></i>
+            <i class="fa fa-fw fa-cogs"></i>
             <span class="nav-link-text">Predictive Model</span>
           </a>
         </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Map">
+          <a class="nav-link" href="data.html">
+            <i class="fa fa-fw fa-bar-chart"></i>
+            <span class="nav-link-text">Data Insights</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Map">
+          <a class="nav-link" href="results.html">
+            <i class="fa fa-fw fa-line-chart"></i>
+            <span class="nav-link-text">Model Performance</span>
+          </a>
+        </li>
+        <li class="nav-item" data-toggle="tooltip" data-placement="right" title="Map">
+          <a class="nav-link" href="aboutme.html">
+            <i class="fa fa-fw fa-user-circle-o"></i>
+            <span class="nav-link-text">About Me</span>
+          </a>
+        </li>
+
 
 
           </ul>
@@ -66,10 +85,10 @@
 
             <div class="card-body">
               <h3> A Model to Predict the Probability of Human Cause </h3>
-              <p>We trained a soft classifier model to predict the probability of human cause given a fire. </p>
+              <p>A soft classifier model was trained to predict the probability of human cause given a fire. </p>
 
-              <img src="static/img/model_flow.png" class="img-responsive" width="700" alt="model_flow">
-              <p>Using the predicted probability, we can calculate the expeted return for the state as a result of investigating that fire.  By ranking the wildfires according to this expected return, we can prioritze investigating ones that are likely to bring in more money. </p>
+              <img src="static/img/model_flow.png" class="img-responsive col-xs-12" alt="model_flow">
+              <p>Using the predicted probability, we can calculate the expeted return for the state as a result of investigating that fire.  By ranking the wildfires according to this expected return, we can prioritze investigating the ones that are likely to bring in more money. The results can be deployed as a web-based <a href=index.html>dashboard</a>.</p>
 
 
               <!--<canvas id="myBarChart" width="100" height="50"></canvas>-->
