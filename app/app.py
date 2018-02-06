@@ -30,6 +30,14 @@ def fires():
 def model():
     return render_template('model.html')
 
+@app.route('/results.html')
+def results():
+    return render_template('results.html')
+
+@app.route('/aboutme.html')
+def aboutme():
+    return render_template('aboutme.html')
+
 @app.route('/data.html')
 def data():
     return render_template('data.html')

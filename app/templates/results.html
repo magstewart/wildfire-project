@@ -84,20 +84,22 @@
           <div class="card mb-3">
 
             <div class="card-body">
-              <h3> Feature Engineering </h3>
-              <p>Data from different sources were combined to engineer features that, given a fire, are predictive of the probability that it was caused by human activity.  </p>
+              <h3> Model Evaluation </h3>
+              <p>The performance of the model was evaluated using test data for the years 2011-2015.  The figure below shows the total return for the state during this five year period as a function of the numbers of fires investigated each year and prioritized according to the model. </p>
 
-              <img src="static/img/feature_engineering.png" class="img-responsive col-xs-12" >
-              <p>Specifically, the latitude and longitude of each fire is used to obtain the population density at that location.  Additionally, data from the nearest weather station is used to create aggregate weather features.  </p>
-
+              <img src="static/img/return_vs_number_of_investigations.png" class="img-responsive col-xs-12" >
+              <p>The total return increases rapidly, meaning that the model does a good job of identifying which fires should be investigated first.  The maximum is at 287 fires, continuing to investigate beyond this point would not be profitable.  In fact, zooming into the top region of the graph (see below) reveals that investigating only the top ranked 287 fires can save the state $1.5 million compared to the current approach of investigating all fires. </p>
+              <img src="static/img/zoom_in.png" class="img-responsive col-xs-12" >
               <!--<canvas id="myBarChart" width="100" height="50"></canvas>-->
             </div>
 
             <div class="card-body">
-              <h3> Predictors of Human Cause in Wildfires </h3>
-              <p>Consider the total precipitation during the 30 days prior to the start of a fire.  As expected, most fires take place during very dry months.  However, given that there is a fire, the conditional probability that it was caused by human activity actually increases as the amount of precipitation goes up. </p>
-              <img src="static/img/prcp_30days_univariate.png" class="img-responsive col-xs-12" >
-              
+              <h3> Performance Metrics </h3>
+              <p>The ROC curve based on 2011-2015 test data is shown bellow.  The model has an AUC score of 0.79. </p>
+              <img src="static/img/roc_curve.png" class="img-responsive col-xs-12" >
+              <p>TFinally, consider a histogram of the predicted probability of human cause for both classes of the target variable.  Fires that were indeed caused by human activity are more likely to have a higher predicted probability of human cause than those cause by nature. </p>
+              <img src="static/img/predictions_hist.png" class="img-responsive col-xs-12" >
+
               <!--<canvas id="myBarChart" width="100" height="50"></canvas>-->
             </div>
 
