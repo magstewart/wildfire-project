@@ -1,7 +1,8 @@
 # Using Machine Learning to Optimize Wildifre Investigations
 
-The objective of this project is to create a tool to optimize the process of wildfire investigations.  
-An example of this tool deployed as a web app can be seen [here](http://fireinvestigator.online).
+The objective of this project is to create a tool to optimize the process of wildfire investigations. Machine learning is used to predict the probability of human cause and produce a priority sort order for investigations. This tool would enable Washington state to reduce the number of investigations each year by 70% while maximizing the amount of fire suppression funds that can be recovered. <br>
+
+An example of this model deployed as a web app can be seen [here](http://fireinvestigator.online).
 
 ### Business Understanding
 
