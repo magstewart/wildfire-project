@@ -69,7 +69,7 @@ The ROC curve based on 2011-2015 test data is shown bellow.  The model has an AU
 |:--:|
 | *Test data ROC curve for gradient boosted classifier* |
 
-Finally, consider a histogram of the predicted probability of human cause for both classes of the target variable.  Fires that were indeed caused by human activity are more likely to have a higher predicted probability of human cause than those cause by nature.
+Finally, consider a histogram of the predicted probability of human cause for both classes of the target variable.  Fires that were indeed caused by human activity are more likely to have a higher predicted probability of human cause than those caused by nature.
 
 | <img align="center" src="app/static/img/predictions_hist.png"> |
 |:--:|
